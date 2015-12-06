@@ -1,0 +1,14 @@
+{
+  "name": "shapp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "react-native": "^0.16.0"
+  },
+  "devDependencies": {
+    "react-native-cli": "^0.1.7"
+  }
+}
