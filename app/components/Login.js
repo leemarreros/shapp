@@ -3,8 +3,7 @@
 import React from 'react-native';
 import Dimensions from 'Dimensions';
 import SignUp from  './SignUp';
-import NavBarButton from './NavBarButton';
-
+import NavigationBar from 'react-native-navbar';
 
 var window = Dimensions.get('window');
 
@@ -15,10 +14,12 @@ let {
   PixelRatio,
   NavigatorIOS,
   Text,
+  StatusBarIOS,
   View,
   TextInput,
   TouchableHighlight,
   Image,
+  TouchableOpacity,
   Textinput
 } = React;
 
@@ -30,12 +31,32 @@ class Login extends React.Component {
     };
   }
 
+  componentWillMount() {
+    StatusBarIOS.setStyle('light-content');
+  }
+
   onSignUp() {
+    const charmander = 'http://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-blue-version/d/d4/Charmander.gif';
     this.props.navigator.push({
-      id: 'signup',
+      component: SignUp,
       footerText: this.footerText(),
+      navigationBar: (
+        <NavigationBar
+          title={<Text style={styles.titleSignUp}>SIGN UP</Text>}
+          style={styles.navigationBar}
+          tintColor={'#285DA1'}
+          statusBar={{style: 'light-content', hidden: false}}
+          leftButton={
+            <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+              <Image
+                source={require('../img/back-icon.png')}
+                style={[{ width: 15, height: 15}]}/>
+            </TouchableOpacity>
+          }/>
+      )
     });
   }
+
   footerText() {
     return (
       <Text style={styles.terms}>
@@ -43,6 +64,11 @@ class Login extends React.Component {
       </Text>
     );
   }
+
+  componentWillMount() {
+
+  }
+
   render() {
 
     return (
@@ -105,6 +131,36 @@ class Login extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  titleSignUp: {
+    fontFamily: 'Avenir',
+    fontWeight: '100',
+    fontSize: 15,
+    color: 'white',
+    marginBottom: 3
+  },
+  navigationBar: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'white',
+    overflow: 'hidden',
+  },
+  buttonNavBar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+    marginBottom: 4,
+    paddingBottom: 12,
+  },
+  navigator: {
+    backgroundColor: 'yellow',
+    width: window.width,
+    borderColor: 'black',
+    borderWidth: 10
+  },
   loginScreen: {
     flex: 1,
     flexDirection: 'column',

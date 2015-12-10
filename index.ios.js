@@ -13,59 +13,21 @@ var {
   AppRegistry,
   StyleSheet,
   Text,
+  Image,
   View,
   NavigatorIOS,
   Navigator,
+  Component,
   StatusBarIOS,
   TouchableOpacity,
   TouchableWithoutFeedback
 } = React;
 
-var NavigationBarRouteMapper = {
-
-  LeftButton: function(route, navigator, index, navState) {
-    if (index === 0) {
-      return null;
-    }
-
-    var previousRoute = navState.routeStack[index - 1];
-    return (
-      <TouchableOpacity
-        onPress={() => navigator.pop()}
-        style={styles.navBarLeftButton}>
-        <Text style={[styles.navBarText, styles.navBarButtonText]}>
-          {previousRoute.title}
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  RightButton: function(route, navigator, index, navState) {
-    return (
-      <TouchableOpacity
-        onPress={() => navigator.push(newRandomRoute())}
-        style={styles.navBarRightButton}>
-        <Text style={[styles.navBarText, styles.navBarButtonText]}>
-          Next
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-
-  Title: function(route, navigator, index, navState) {
-    return (
-      <Text style={[styles.navBarText, styles.navBarTitleText]}>
-        {route.title} [{index}]
-      </Text>
-    );
-  },
-
-};
-
 class shapp extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      hideNavBar: true,
     };
   }
 
@@ -73,40 +35,36 @@ class shapp extends React.Component{
     StatusBarIOS.setStyle('light-content');
   }
 
-  renderScene (route, nav) {
-    switch (route.id) {
-      case 'tour':
-        return ;
-      case 'signup':
-            // <Login navigator={nav}/>
-        break;
-      default:
-        return (
-        <SignUp navigator={nav} route={route}/>
-        );
+  renderScene (route, navigator) {
+    let Component = route.component;
+    let navBar = route.navigationBar;
+    if (navBar) {
+     navBar = React.cloneElement(navBar, { navigator, route, });
     }
+
+    return (
+      <View style={styles.app}>
+        {route.navigationBar}
+        <Component
+          route={route}
+          navigator={navigator}/>
+      </View>
+    );
   }
 
   render() {
-    return (
+   return (
       <Navigator
-        style={styles.app}
+        renderScene={this.renderScene.bind(this)}
         initialRoute={{
-          title: 'Login',
-          component: Login,
+          component: Login
         }}
-        renderScene={this.renderScene}
-        configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
-          }
-          return Navigator.SceneConfigs.FloatFromRight;
-        }}/>
+      />
     );
   }
-};
 
-        // renderScene={this.renderScene}
+}
+
 var styles = StyleSheet.create({
   app: {
     flex: 1,

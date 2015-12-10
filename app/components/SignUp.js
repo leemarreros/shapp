@@ -14,6 +14,7 @@ let {
   View,
   TouchableHighlight,
   Image,
+  StatusBarIOS,
   TextInput
 } = React;
 
@@ -25,7 +26,12 @@ class SignUp extends React.Component {
     };
   }
 
+  componentWillMount() {
+    StatusBarIOS.setStyle('light-content');
+  }
+
   render() {
+
     return (
       <View style={styles.signupWrapper}>
 
@@ -106,6 +112,9 @@ class SignUp extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  navBar: {
+    backgroundColor: 'white',
+  },
   signupWrapper: {
     backgroundColor: '#285DA1',
     flex: 1,
