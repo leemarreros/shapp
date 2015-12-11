@@ -36,7 +36,6 @@ class Login extends React.Component {
   }
 
   onSignUp() {
-    const charmander = 'http://oyster.ignimgs.com/mediawiki/apis.ign.com/pokemon-blue-version/d/d4/Charmander.gif';
     this.props.navigator.push({
       component: SignUp,
       footerText: this.footerText(),
