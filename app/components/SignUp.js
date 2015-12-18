@@ -6,6 +6,9 @@ import FBSDKCore from 'react-native-fbsdkcore';
 import FBSDKLogin from 'react-native-fbsdklogin';
 import NavigationBar from 'react-native-navbar';
 import TabManager from './TabManager';
+import helpers from '../utils/dbHelper';
+import globalVar from '../utils/globalVariables';
+
 // import Home from './tabBarItems/Home';
 
 var {
@@ -51,7 +54,6 @@ class SignUp extends React.Component {
         return;
       }
 
-      // GraphQL query for user information
       let fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
 
         if (error) {
@@ -65,12 +67,39 @@ class SignUp extends React.Component {
           return;
         }
         console.log(userInfo);
+        var url = `${globalVar.restUrl}/api/signupfb`;
+        var body = {
+          name: `${userInfo.first_name} ${userInfo.last_name}`,
+          picture: `https://graph.facebook.com/${userInfo.id}/picture?height=400`,
+          fbId: userInfo.id
+        };
+
+        fetch(helpers.requestHelper(url, body, 'POST'))
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(responseData);
+          if (responseData.status === 'notNew') {
+            this.alertIOS('This user already exists!', 'Please, Sign In.');
+          } else if (responseData.status = 'successSignUp') {
+            this.alertIOS('Welcome to Shapp!', 'Please, Continue.');
+          }
+        })
+        .done();
+
         this.switchToTabManager();
 
       }, 'me?fields=first_name,last_name,picture');
 
       fetchProfileRequest.start(0);
     }));
+  }
+
+  alertIOS(title, message) {
+    AlertIOS.alert(title, message,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]
+    )
   }
 
   switchToTabManager() {
@@ -105,6 +134,7 @@ class SignUp extends React.Component {
 
         <View style={styles.whiteBoard}>
           <View key={1} style={styles.row}>
+
             <Image style={styles.icons} source={require('../img/user-signup-icon.png')}/>
             <TextInput
               style={styles.inputBox}

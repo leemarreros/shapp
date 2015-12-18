@@ -6,6 +6,7 @@ import SignUp from  './SignUp';
 import NavigationBar from 'react-native-navbar';
 import helpers from '../utils/dbHelper';
 import Home from './tabBarItems/Home';
+import globalVar from '../utils/globalVariables';
 
 var window = Dimensions.get('window');
 
@@ -35,22 +36,10 @@ class Login extends React.Component {
     };
   }
 
-  fetchingBears() {
-
-  }
-
   componentWillMount() {
     StatusBarIOS.setStyle('light-content');
   }
 
-  componentDidMount () {
-    // fetch(url, {method: 'GET',})
-    // .then((response) => response.json())
-    // .then((responseData) => {
-    //   console.log(responseData);
-    // })
-    // .done();
-  }
   onSignUp() {
     this.props.navigator.push({
       component: SignUp,
@@ -89,7 +78,7 @@ class Login extends React.Component {
   }
 
   onSignInPress() {
-    var url = 'http://localhost:8000/api/loginmanual';
+    var url = `${globalVar.restUrl}/api/loginmanual`;
     var body = {
       password: this.state.password,
       email: null,

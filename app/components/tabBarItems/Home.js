@@ -28,7 +28,6 @@ export default class Home extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: 'white', height: window.height }}>
         <NavBar title={'HOME'} sourceLeft={require('../../img/burguer-menu.png')}/>
-
         <Text>Home</Text>
       </View>
     );
