@@ -53,6 +53,9 @@ class SignUp extends React.Component {
         console.warn('No token founded');
         return;
       }
+      // else {
+      //   this.switchToTabManager();
+      // }
 
       let fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
 
@@ -82,11 +85,11 @@ class SignUp extends React.Component {
             this.alertIOS('This user already exists!', 'Please, Sign In.');
           } else if (responseData.status = 'successSignUp') {
             this.alertIOS('Welcome to Shapp!', 'Please, Continue.');
+            this.switchToTabManager();
           }
         })
         .done();
 
-        this.switchToTabManager();
 
       }, 'me?fields=first_name,last_name,picture');
 

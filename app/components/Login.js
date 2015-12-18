@@ -3,12 +3,26 @@
 import React from 'react-native';
 import Dimensions from 'Dimensions';
 import SignUp from  './SignUp';
+import TabManager from  './TabManager';
 import NavigationBar from 'react-native-navbar';
 import helpers from '../utils/dbHelper';
 import Home from './tabBarItems/Home';
+import FBSDKCore from 'react-native-fbsdkcore';
+import FBSDKLogin from 'react-native-fbsdklogin';
+
+
 import globalVar from '../utils/globalVariables';
 
 var window = Dimensions.get('window');
+
+var {
+  FBSDKLoginManager,
+} = FBSDKLogin;
+
+var {
+  FBSDKAccessToken,
+  FBSDKGraphRequest
+} = FBSDKCore;
 
 let {
   AppRegistry,
@@ -115,6 +129,71 @@ class Login extends React.Component {
     .done();
   }
 
+  switchToTabManager() {
+    this.props.navigator.push({
+      component: TabManager,
+    });
+  }
+
+  async getAccesToken(updateUserInfo) {
+    var responseToken = await (FBSDKAccessToken.getCurrentAccessToken((token) => {
+
+      if(!token) {
+        this.setState({responseToken: true});
+        console.warn('No token founded');
+        return;
+      }
+      // else {
+      //   this.switchToTabManager();
+      // }
+
+      let fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
+        if (error) {
+          console.warn('FBSDKGraphRequest', error);
+          alertIOS('Error logging in', 'Please try again!');
+          return;
+        }
+        console.log(userInfo);
+
+        var url = `${globalVar.restUrl}/api/loginfb`;
+        var body = {
+          fbId: userInfo.id,
+        };
+
+        fetch(helpers.requestHelper(url, body, 'POST'))
+        .then((response) => response.json())
+        .then((responseData) => {
+          console.log(responseData);
+          if (responseData.status === 'noexist') {
+            this.alertIOS('This user does not exist!', 'Please, Sign Up.');
+          } else if (responseData.status = 'successLogin') {
+            this.alertIOS('Welcome again to Shapp!', 'Please, Continue.');
+            this.switchToTabManager();
+          }
+        })
+        .done();
+
+      }, 'me');
+
+      fetchProfileRequest.start(0);
+    }));
+  }
+
+  onFbSignInPress() {
+     FBSDKLoginManager.logInWithReadPermissions([], (error, result) => {
+      if (error) {
+        alert('Error logging in.');
+      } else {
+        if (result.isCanceled) {
+          alert('Login cancelled.');
+        } else {
+          console.log('result', result);
+          this.getAccesToken();
+        }
+      }
+    });
+  }
+
   render() {
 
     return (
@@ -162,6 +241,7 @@ class Login extends React.Component {
           </TouchableHighlight>
           <TouchableHighlight
             key={2}
+            onPress={this.onFbSignInPress.bind(this)}
             style={styles.button}>
             <Text style={[styles.textButton]}>FACEBOOK</Text>
           </TouchableHighlight>
