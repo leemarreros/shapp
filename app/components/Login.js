@@ -51,6 +51,13 @@ class Login extends React.Component {
 
   componentWillMount() {
     StatusBarIOS.setStyle('light-content');
+     fetch('http://localhost:8000/api/session')
+    .then((response) => response.json())
+    .then((responseData) => {
+      console.log(responseData);
+      if (responseData.session) this.switchToTabManager();
+    })
+    .done();
   }
 
   onSignUp() {
@@ -91,6 +98,9 @@ class Login extends React.Component {
   }
 
   onSignInPress() {
+    if (this.state.userEmailorUserName === null ||
+        this.state.userEmailorUserName === "") return;
+
     var url = `${globalVar.restUrl}/api/loginmanual`;
     var body = {
       password: this.state.password,
@@ -120,9 +130,7 @@ class Login extends React.Component {
 
         console.log('Successfull login');
         this.alertIOS('Welcome again!', 'Please, continue.');
-        this.props.navigator.push({
-          component: TabManager,
-        });
+        this.switchToTabManager();
       }
 
     })
