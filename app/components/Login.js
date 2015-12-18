@@ -40,12 +40,10 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount');
     StatusBarIOS.setStyle('light-content');
   }
 
   componentDidMount () {
-    console.log('componentDidMount');
     // fetch(url, {method: 'GET',})
     // .then((response) => response.json())
     // .then((responseData) => {
@@ -82,6 +80,14 @@ class Login extends React.Component {
     );
   }
 
+  alertIOS(title, message) {
+    AlertIOS.alert(title, message,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]
+    )
+  }
+
   onSignInPress() {
     var url = 'http://localhost:8000/api/loginmanual';
     var body = {
@@ -101,29 +107,21 @@ class Login extends React.Component {
     .then((responseData) => {
       console.log(responseData);
       if (responseData.status === 'nonUser') {
-        AlertIOS.alert(
-          'Unrecognized User',
-          'Please, sign up!',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ]
-        )
+
+        this.alertIOS('Unrecognized User', 'Please, sign up!');
+
       } else if (responseData.status === 'passwordIncorrect') {
-        AlertIOS.alert(
-          'Password Incorrect!',
-          'Please, try again.',
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-          ]
-        )
+
+        this.alertIOS('Password Incorrect!', 'Please, try again.');
+
       } else if ( responseData.status === 'successLogin') {
+
         console.log('Successfull login');
         this.props.navigator.push({
           component: Home,
         });
       }
+
     })
     .done();
   }
