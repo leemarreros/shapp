@@ -21,12 +21,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		9F1DABA91C16077500200596 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F1DABA81C16077500200596 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		9F1DABAE1C16113000200596 /* Avenir.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 9F1DABAD1C16113000200596 /* Avenir.ttc */; settings = {ASSET_TAGS = (); }; };
 		9F4EC52C1C1AA70700FE19F2 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC52A1C1AA70700FE19F2 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		9F4EC52D1C1AA70700FE19F2 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC52B1C1AA70700FE19F2 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
 		9F4EC53A1C1AA97400FE19F2 /* libRCTFBSDKLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC5391C1AA92300FE19F2 /* libRCTFBSDKLogin.a */; };
 		9F4EC53B1C1AA97900FE19F2 /* libRCTFBSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC5331C1AA91B00FE19F2 /* libRCTFBSDKCore.a */; };
+		9F4EC53D1C1CDF8300FE19F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F4EC53C1C1CDF8300FE19F2 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,12 +144,12 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		9F1DABA81C16077500200596 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9F1DABAD1C16113000200596 /* Avenir.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Avenir.ttc; sourceTree = "<group>"; };
 		9F4EC52A1C1AA70700FE19F2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		9F4EC52B1C1AA70700FE19F2 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		9F4EC52E1C1AA91B00FE19F2 /* RCTFBSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKCore.xcodeproj; path = "../node_modules/react-native-fbsdkcore/RCTFBSDKCore.xcodeproj"; sourceTree = "<group>"; };
 		9F4EC5341C1AA92300FE19F2 /* RCTFBSDKLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKLogin.xcodeproj; path = "../node_modules/react-native-fbsdklogin/RCTFBSDKLogin.xcodeproj"; sourceTree = "<group>"; };
+		9F4EC53C1C1CDF8300FE19F2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,7 +260,6 @@
 		13B07FAE1A68108700A75B9A /* shapp */ = {
 			isa = PBXGroup;
 			children = (
-				9F1DABA81C16077500200596 /* Images.xcassets */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -317,6 +316,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				9F4EC53C1C1CDF8300FE19F2 /* Images.xcassets */,
 				9F4EC51B1C1AA6AD00FE19F2 /* Frameworks */,
 				9F1DABAC1C16113000200596 /* Resources */,
 				13B07FAE1A68108700A75B9A /* shapp */,
@@ -592,8 +592,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F4EC53D1C1CDF8300FE19F2 /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				9F1DABA91C16077500200596 /* Images.xcassets in Resources */,
 				9F1DABAE1C16113000200596 /* Avenir.ttc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -5,7 +5,8 @@ import Dimensions from 'Dimensions';
 import FBSDKCore from 'react-native-fbsdkcore';
 import FBSDKLogin from 'react-native-fbsdklogin';
 import NavigationBar from 'react-native-navbar';
-import Home from './Home';
+import TabManager from './TabManager';
+// import Home from './tabBarItems/Home';
 
 var {
   FBSDKLoginManager,
@@ -37,6 +38,7 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      titleNavBar: 'HOME'
     };
   }
 
@@ -62,8 +64,8 @@ class SignUp extends React.Component {
           );
           return;
         }
-
-        this.switchToHome();
+        console.log(userInfo);
+        this.switchToTabManager();
 
       }, 'me?fields=first_name,last_name,picture');
 
@@ -71,23 +73,9 @@ class SignUp extends React.Component {
     }));
   }
 
-  switchToHome() {
+  switchToTabManager() {
     this.props.navigator.push({
-      component: Home,
-      navigationBar: (
-        <NavigationBar
-          title={<Text style={styles.titleSignUp}>HOME</Text>}
-          style={styles.navigationBar}
-          tintColor={'#285DA1'}
-          statusBar={{style: 'light-content', hidden: false}}
-          leftButton={
-            <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
-              <Image
-                source={require('../img/burguer-menu.png')}
-                style={[{ width: 15, height: 15}]}/>
-            </TouchableOpacity>
-          }/>
-      )
+      component: TabManager,
     });
   }
 
@@ -154,6 +142,7 @@ class SignUp extends React.Component {
             <TextInput
               style={styles.inputBox}
               placeholder="Password"
+              password={true}
               returnKeyType='next'
               onFocus={()=>{console.log('username')}}
               placeholderTextColor="#CACACA"
@@ -208,6 +197,13 @@ class SignUp extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  titleNavBar: {
+    fontFamily: 'Avenir',
+    fontWeight: '100',
+    fontSize: 15,
+    color: 'white',
+    marginBottom: 3
+  },
   buttonNavBar: {
     flex: 1,
     alignItems: 'center',

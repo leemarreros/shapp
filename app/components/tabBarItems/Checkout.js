@@ -2,6 +2,7 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import NavBar from '../../utilComponents/navBar';
 
 var window = Dimensions.get('window');
 
@@ -22,6 +23,8 @@ export default class Checkout extends React.Component {
   render() {
     return (
      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <NavBar title={'CHECK OUT'} sourceLeft={require('../../img/burguer-menu.png')}/>
+
       <Text>Checkout</Text>
      </View>
     );

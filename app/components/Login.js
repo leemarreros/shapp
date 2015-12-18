@@ -4,6 +4,8 @@ import React from 'react-native';
 import Dimensions from 'Dimensions';
 import SignUp from  './SignUp';
 import NavigationBar from 'react-native-navbar';
+import helpers from '../utils/dbHelper';
+import Home from './tabBarItems/Home';
 
 var window = Dimensions.get('window');
 
@@ -28,13 +30,29 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userEmailorUserName: null,
+      password: null
     };
   }
 
+  fetchingBears() {
+
+  }
+
   componentWillMount() {
+    console.log('componentWillMount');
     StatusBarIOS.setStyle('light-content');
   }
 
+  componentDidMount () {
+    console.log('componentDidMount');
+    // fetch(url, {method: 'GET',})
+    // .then((response) => response.json())
+    // .then((responseData) => {
+    //   console.log(responseData);
+    // })
+    // .done();
+  }
   onSignUp() {
     this.props.navigator.push({
       component: SignUp,
@@ -64,8 +82,50 @@ class Login extends React.Component {
     );
   }
 
-  componentWillMount() {
+  onSignInPress() {
+    var url = 'http://localhost:8000/api/loginmanual';
+    var body = {
+      password: this.state.password,
+      email: null,
+      username: null,
+    };
 
+    if (this.state.userEmailorUserName.indexOf('@') != -1) {
+      body.email = this.state.userEmailorUserName;
+    } else {
+      body.username = this.state.userEmailorUserName;
+    }
+
+    fetch(helpers.requestHelper(url, body, 'POST'))
+    .then((response) => response.json())
+    .then((responseData) => {
+      console.log(responseData);
+      if (responseData.status === 'nonUser') {
+        AlertIOS.alert(
+          'Unrecognized User',
+          'Please, sign up!',
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          ]
+        )
+      } else if (responseData.status === 'passwordIncorrect') {
+        AlertIOS.alert(
+          'Password Incorrect!',
+          'Please, try again.',
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          ]
+        )
+      } else if ( responseData.status === 'successLogin') {
+        console.log('Successfull login');
+        this.props.navigator.push({
+          component: Home,
+        });
+      }
+    })
+    .done();
   }
 
   render() {
@@ -88,7 +148,7 @@ class Login extends React.Component {
               returnKeyType='next'
               onFocus={()=>{console.log('username')}}
               placeholderTextColor="white"
-              onChangeText={(userEmail) => this.setState({userEmail})}
+              onChangeText={(userEmailorUserName) => this.setState({userEmailorUserName})}
               value={this.state.text}/>
           </View>
           <View style={styles.inputBoxWrapper}>
@@ -109,6 +169,7 @@ class Login extends React.Component {
           <View key={0}><Text style={styles.tour}>Take a tour</Text></View>
           <TouchableHighlight
             key={1}
+            onPress={this.onSignInPress.bind(this)}
             style={styles.button}>
             <Text style={[styles.textButton]}>SIGN IN</Text>
           </TouchableHighlight>

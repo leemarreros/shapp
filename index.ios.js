@@ -7,6 +7,7 @@
 import React from 'react-native';
 import Login from './app/components/Login';
 import SignUp from './app/components/SignUp';
+import TabManager from './app/components/TabManager';
 
 
 var {

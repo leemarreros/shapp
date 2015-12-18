@@ -3,6 +3,8 @@
 import React from 'react-native';
 import Dimensions from 'Dimensions';
 import NavigationBar from 'react-native-navbar';
+import NavBar from '../../utilComponents/navBar';
+
 
 var window = Dimensions.get('window');
 
@@ -25,7 +27,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white', height: window.height }}>
-        {this.props.navBar}
+        <NavBar title={'HOME'} sourceLeft={require('../../img/burguer-menu.png')}/>
 
         <Text>Home</Text>
       </View>
@@ -34,28 +36,4 @@ export default class Home extends React.Component {
 }
 
 var styles = StyleSheet.create({
-   titleNavBar: {
-    fontFamily: 'Avenir',
-    fontWeight: '100',
-    fontSize: 15,
-    color: 'white',
-    marginBottom: 3
-  },
-  buttonNavBar: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 12,
-    marginBottom: 4,
-    paddingBottom: 12,
-  },
-  navigationBar: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'white',
-    overflow: 'hidden',
-  },
 });
