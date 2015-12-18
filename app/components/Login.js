@@ -6,7 +6,6 @@ import SignUp from  './SignUp';
 import TabManager from  './TabManager';
 import NavigationBar from 'react-native-navbar';
 import helpers from '../utils/dbHelper';
-import Home from './tabBarItems/Home';
 import FBSDKCore from 'react-native-fbsdkcore';
 import FBSDKLogin from 'react-native-fbsdklogin';
 
@@ -120,8 +119,9 @@ class Login extends React.Component {
       } else if ( responseData.status === 'successLogin') {
 
         console.log('Successfull login');
+        this.alertIOS('Welcome again!', 'Please, continue.');
         this.props.navigator.push({
-          component: Home,
+          component: TabManager,
         });
       }
 
@@ -140,17 +140,14 @@ class Login extends React.Component {
 
       if(!token) {
         this.setState({responseToken: true});
-        console.warn('No token founded');
+        console.log('No token founded');
         return;
       }
-      // else {
-      //   this.switchToTabManager();
-      // }
 
       let fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
         if (error) {
           console.warn('FBSDKGraphRequest', error);
-          alertIOS('Error logging in', 'Please try again!');
+          this.alertIOS('Error logging in', 'Please try again!');
           return;
         }
         console.log(userInfo);
@@ -192,6 +189,11 @@ class Login extends React.Component {
         }
       }
     });
+  }
+
+  componentDidMount() {
+    this.getAccesToken();
+    // FBSDKLoginManager.logOut();
   }
 
   render() {

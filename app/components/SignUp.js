@@ -41,7 +41,12 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      titleNavBar: 'HOME'
+      titleNavBar: 'HOME',
+      userName:null,
+      fullName:null,
+      userEmail:null,
+      password:null,
+      zipCode: null
     };
   }
 
@@ -50,12 +55,9 @@ class SignUp extends React.Component {
 
       if(!token) {
         this.setState({responseToken: true});
-        console.warn('No token founded');
+        console.log('No token founded');
         return;
       }
-      // else {
-      //   this.switchToTabManager();
-      // }
 
       let fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
 
@@ -115,7 +117,7 @@ class SignUp extends React.Component {
     StatusBarIOS.setStyle('light-content');
   }
 
-  onSignUpPress() {
+  onSignUpPressFB() {
 
     FBSDKLoginManager.logInWithReadPermissions([], (error, result) => {
       if (error) {
@@ -128,6 +130,30 @@ class SignUp extends React.Component {
         }
       }
     });
+  }
+
+  onCreateAccountPress() {
+    var url = `${globalVar.restUrl}/api/signupmanual`;
+    var body = {
+      username: this.state.userName,
+      name: this.state.fullName,
+      email: this.state.userEmail,
+      password: this.state.password,
+      zipcode: this.state.zipCode
+    };
+
+    fetch(helpers.requestHelper(url, body, 'POST'))
+    .then((response) => response.json())
+    .then((responseData) => {
+      console.log(responseData);
+      if (responseData.status === 'notNew') {
+        this.alertIOS('This user already exists!', 'Please, Sign In.');
+      } else if (responseData.status = 'successSignUp') {
+        this.alertIOS('Welcome to Shapp!', 'Please, Continue.');
+        this.switchToTabManager();
+      }
+    })
+    .done();
   }
 
   render() {
@@ -179,7 +205,7 @@ class SignUp extends React.Component {
               returnKeyType='next'
               onFocus={()=>{console.log('username')}}
               placeholderTextColor="#CACACA"
-              onChangeText={(userEmail) => this.setState({userEmail})}
+              onChangeText={(password) => this.setState({password})}
               value={this.state.text}/>
             <Image style={styles.icons} source={require('../img/show-signup-icon.png')}/>
           </View>
@@ -191,11 +217,14 @@ class SignUp extends React.Component {
               returnKeyType='next'
               onFocus={()=>{console.log('username')}}
               placeholderTextColor="#CACACA"
-              onChangeText={(userEmail) => this.setState({userEmail})}
+              onChangeText={(zipCode) => this.setState({zipCode})}
               value={this.state.text}/>
           </View>
 
-          <TouchableHighlight key={6} style={[styles.button, styles.createAccount]}>
+          <TouchableHighlight
+            key={6}
+            onPress={this.onCreateAccountPress.bind(this)}
+            style={[styles.button, styles.createAccount]}>
             <Text style={styles.createAccountTxt}>CREATE ACCOUNT</Text>
           </TouchableHighlight>
 
@@ -204,7 +233,7 @@ class SignUp extends React.Component {
             <View style={styles.wrapperLineText}><Text style={styles.orText}>or</Text></View>
           </View>
 
-          <TouchableHighlight key={7} style={[styles.button, styles.facebook]} onPress={this.onSignUpPress.bind(this)}>
+          <TouchableHighlight key={7} style={[styles.button, styles.facebook]} onPress={this.onSignUpPressFB.bind(this)}>
             <View style={styles.buttonContent}>
               <Image style={styles.imgIconButton} source={require('../img/fb-icon.png')}/>
               <Text style={styles.textIconButon}>SIGN UP WITH FACEBOOK</Text>
