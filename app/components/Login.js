@@ -9,8 +9,9 @@ import helpers from '../utils/dbHelper';
 import FBSDKCore from 'react-native-fbsdkcore';
 import FBSDKLogin from 'react-native-fbsdklogin';
 
-
 import globalVar from '../utils/globalVariables';
+var EventEmitter = require('EventEmitter');
+var Subscribable = require('Subscribable');
 
 var window = Dimensions.get('window');
 
@@ -45,7 +46,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       userEmailorUserName: null,
-      password: null
+      password: null,
+      openSideMenu: false,
     };
   }
 
@@ -58,6 +60,8 @@ class Login extends React.Component {
       if (responseData.session) this.switchToTabManager();
     })
     .done();
+    this.eventEmitter = new EventEmitter();
+
   }
 
   onSignUp() {
@@ -138,9 +142,17 @@ class Login extends React.Component {
     .done();
   }
 
+
+  onBurguerMenuPress() {
+    this.eventEmitter.emit('burguerBtnEvent', true);
+    console.log('side menu press');
+  }
+
   switchToTabManager() {
     this.props.navigator.push({
       component: TabManager,
+      openSideMenu: this.state.openSideMenu,
+      events: this.eventEmitter,
       navigationBar: (
         <NavigationBar
           title={<Image style={{width: 55, height: 25}} source={require('../img/logo-as-title.png')}/>}
@@ -150,7 +162,7 @@ class Login extends React.Component {
           leftButton={
             <TouchableOpacity
               style={styles.buttonNavBar}
-              onPress={()=> {}}>
+              onPress={this.onBurguerMenuPress.bind(this)}>
               <Image
                 source={require('../img/burguer-menu.png')}
                 style={[{ width: 20, height: 15}]}/>
