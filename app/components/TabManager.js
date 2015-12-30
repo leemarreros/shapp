@@ -48,7 +48,7 @@ export default class TabManager extends React.Component {
         style={{backgroundColor: 'green'}}>
         <Item name="home">
           <Item.Content>
-            <Home/>
+            <Home navigator={this.props.navigator}/>
           </Item.Content>
           <Item.Icon>
               <Image
