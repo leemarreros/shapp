@@ -2,7 +2,6 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
-import NavBar from '../../utilComponents/navBar';
 
 import globalVar from '../../utils/globalVariables';
 

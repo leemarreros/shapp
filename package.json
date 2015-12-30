@@ -16,6 +16,7 @@
     "react-native-fbsdkcore": "0.0.7",
     "react-native-fbsdklogin": "0.0.7",
     "react-native-navbar": "^1.0.7",
+    "react-native-side-menu": "^0.17.2",
     "react-native-tabbar": "^0.1.1",
     "urlencode": "^1.1.0"
   },

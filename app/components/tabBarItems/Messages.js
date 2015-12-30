@@ -2,7 +2,6 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
-import NavBar from '../../utilComponents/navBar';
 
 
 var window = Dimensions.get('window');
