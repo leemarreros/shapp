@@ -64,6 +64,7 @@ class Login extends React.Component {
     this.props.navigator.push({
       component: SignUp,
       footerText: this.footerText(),
+      switchToTabManager: this.switchToTabManager,
       navigationBar: (
         <NavigationBar
           title={<Text style={styles.titleSignUp}>SIGN UP</Text>}
@@ -140,6 +141,22 @@ class Login extends React.Component {
   switchToTabManager() {
     this.props.navigator.push({
       component: TabManager,
+      navigationBar: (
+        <NavigationBar
+          title={<Image style={{width: 55, height: 25}} source={require('../img/logo-as-title.png')}/>}
+          style={styles.navigationBar}
+          tintColor={'#285DA1'}
+          statusBar={{style: 'light-content', hidden: false}}
+          leftButton={
+            <TouchableOpacity
+              style={styles.buttonNavBar}
+              onPress={()=> {}}>
+              <Image
+                source={require('../img/burguer-menu.png')}
+                style={[{ width: 20, height: 15}]}/>
+            </TouchableOpacity>
+          }/>
+      )
     });
   }
 
@@ -270,26 +287,21 @@ class Login extends React.Component {
 var styles = StyleSheet.create({
   titleSignUp: {
     fontFamily: 'Avenir',
-    fontWeight: '100',
+    fontWeight: '500',
     fontSize: 15,
     color: 'white',
-    marginBottom: 3
   },
   navigationBar: {
     backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'white',
-    overflow: 'hidden',
   },
   buttonNavBar: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 12,
-    marginBottom: 4,
     paddingBottom: 12,
   },
   navigator: {

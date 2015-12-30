@@ -31,6 +31,13 @@ export default class Articles extends React.Component {
 
   componentWillMount() {
     this.article = this.props.route.article;
+    console.log(this.article);
+    var newDate = new Date(this.article.createdOn);
+    console.log(newDate);
+    var day = newDate.getUTCDate() - 1;
+    var month = newDate.getUTCMonth() + 1;
+    var year = newDate.getUTCFullYear();
+    this.date = "" + month + "/" + day + "/" + year;
   }
 
   componentDidMount() {
@@ -51,14 +58,22 @@ export default class Articles extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }} >
         <ProgressViewIOS
-          style={styles.progressView}
-          progressTintColor="#50E3C2"
+          progressTintColor='#50E3C2'
           progressViewStyle={'bar'}
           progress={this.state.progress}/>
         <ScrollView
+          showsVerticalScrollIndicator={false}
           onScroll={this.handleScroll.bind(this)}
-          scrollEventThrottle={30}>
+          scrollEventThrottle={30}
+          style={styles.scrollView}>
           <Text style={styles.title}>{this.article.title}</Text>
+          <Text style={styles.titleFoot}>
+            By &nbsp;
+            <Text style={styles.author}>
+              {this.article.createdBy.name}
+            </Text>&nbsp;|&nbsp;{this.date}
+          </Text>
+          <View style={styles.line}/>
           <Text ref="textHeight" style={styles.content}>{this.article.content}</Text>
         </ScrollView>
       </View>
@@ -67,18 +82,33 @@ export default class Articles extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  progressView: {
-    // height: 20,
+  line: {
+    width: window.width,
+    height: 1,
+    backgroundColor: 'grey',
+    marginBottom: 20
+  },
+  titleFoot: {
+    fontFamily: 'Avenir',
+    fontSize: 14,
+    marginBottom: 10,
+    color: 'grey'
+  },
+  author: {
+    fontWeight: '800'
+  },
+  scrollView: {
+    marginHorizontal: 16
   },
   title: {
     fontSize: 30,
     fontFamily: 'Avenir',
-    fontWeight: 'bold',
+    fontWeight: '900',
     marginTop: 5,
     marginBottom: 10
   },
   content: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Avenir',
   }
 });

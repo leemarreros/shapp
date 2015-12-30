@@ -24,7 +24,6 @@ export default class Messages extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <NavBar title={'MESSAGES'} sourceLeft={require('../../img/burguer-menu.png')}/>
 
         <Text>Messages</Text>
       </View>

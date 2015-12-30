@@ -66,13 +66,12 @@ export default class Home extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white', height: window.height }}>
-        <NavBar title={'HOME'} sourceLeft={require('../../img/burguer-menu.png')}/>
 
         {this.state.loadingArticles ? <Text> Loading</Text> :
           <View style={{flex: 1}}>
             <ScrollView
-             style={styles.scrollView}>
-
+              showsVerticalScrollIndicator={false}
+              style={styles.scrollView}>
               <TouchableHighlight
                 style={{height: 335}}
                 onPress={this.onArticlePressed.bind(this, 0)}>

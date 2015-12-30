@@ -23,8 +23,6 @@ export default class Products extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <NavBar title={'PRODUCTS'} sourceLeft={require('../../img/burguer-menu.png')} sourceRight={require('../../img/filters-icon.png')}/>
-
         <Text>Products</Text>
       </View>
     );

@@ -108,9 +108,7 @@ class SignUp extends React.Component {
   }
 
   switchToTabManager() {
-    this.props.navigator.push({
-      component: TabManager,
-    });
+    this.props.route.switchToTabManager();
   }
 
   componentWillMount() {
