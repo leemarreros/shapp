@@ -9,6 +9,7 @@ let {
   View,
   Text,
   StyleSheet,
+  AlertIOS,
   TouchableOpacity,
   Image
 } = React;
@@ -22,6 +23,16 @@ export default class SideMenuLeft extends React.Component {
   }
 
   componentWillMount() {
+  }
+
+  onLogOutPress() {
+    AlertIOS.alert('Loggin out!', 'Are you sure?',
+      [
+        {text: 'Yes please!', onPress: () => this.props.onLogOutPress()},
+        {text: 'Just kidding!', onPress: () => {}}
+      ],
+      'secure-text'
+    )
   }
 
   render() {
@@ -45,14 +56,35 @@ export default class SideMenuLeft extends React.Component {
         </View>
         <View style={styles.buttons}>
         </View>
-        <View style={styles.logOut}>
-        </View>
+        <TouchableOpacity
+          style={styles.logOutWrap}
+          onPress={this.onLogOutPress.bind(this)}>
+          <Image style={styles.logOutButton} source={require('../img/log-out-icon.png')}/>
+          <Text style={styles.logOutText}>Log out</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
 var styles = StyleSheet.create({
+  logOutText: {
+    fontFamily: 'Avenir',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 5
+  },
+  logOutButton: {
+    width: 20,
+    height: 20,
+    marginRight: 5
+  },
+  logOutWrap: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flex: 1,
+  },
   textTop: {
     fontFamily: 'Avenir',
     fontSize: 11
@@ -79,16 +111,12 @@ var styles = StyleSheet.create({
   },
   userInfo: {
     flex: 3.3,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderBottomColor: 'grey'
   },
   buttons: {
     backgroundColor: 'yellow',
     flex: 10,
-  },
-  logOut: {
-    backgroundColor: 'black',
-    flex: 1,
   },
   sideMenu: {
     backgroundColor: 'white',

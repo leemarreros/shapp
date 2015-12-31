@@ -58,7 +58,7 @@ class Login extends React.Component {
       .then((response) => response.json())
       .then((responseData) => {
         console.log('Login', responseData);
-        if (responseData.session) this.switchToTabManager();
+        if (responseData.session != 'false') this.switchToTabManager();
       })
       .done();
     this.eventEmitter = new EventEmitter();
@@ -154,6 +154,7 @@ class Login extends React.Component {
       component: TabManager,
       openSideMenu: this.state.openSideMenu,
       events: this.eventEmitter,
+      onLogOutPress: this.onLogOutPress.bind(this),
       navigationBar: (
         <NavigationBar
           title={<Image style={{width: 55, height: 25}} source={require('../img/logo-as-title.png')}/>}
@@ -230,9 +231,19 @@ class Login extends React.Component {
     });
   }
 
+  onLogOutPress() {
+    FBSDKLoginManager.logOut();
+    this.props.navigator.popToTop();
+    var url = `${globalVar.restUrl}/api/session`;
+    var body = {
+      logOut: false,
+    };
+    fetch(helpers.requestHelper(url, body, 'POST'))
+    .done();
+  }
+
   componentDidMount() {
     this.getAccesToken();
-    // FBSDKLoginManager.logOut();
   }
 
   render() {

@@ -69,7 +69,7 @@ export default class TabManager extends React.Component {
   render() {
     return (
       <SideMenu
-      menu={<SideMenuLeft userInfo={this.props.userInfo} />}
+      menu={<SideMenuLeft userInfo={this.props.userInfo} onLogOutPress={this.props.route.onLogOutPress} />}
       openMenuOffset={window.width/2}
       disableGestures={true}
       onChange={this.onChangeSideMenu.bind(this)}
