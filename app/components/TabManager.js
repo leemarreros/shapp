@@ -45,23 +45,18 @@ export default class TabManager extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('will', nextProps);
   }
 
 
   openSideMenuClick(args) {
     this.setState({openSideMenu: args.open})
-    console.log('openSideMenuClick');
   }
 
   componentWillMount() {
     this.props.route.events.addListener('burguerBtnEvent',
       (args) => {
-        console.log(args);
         this.setState({openSideMenu: args});
       });
-    // this.props.route.events.addListener(this.props.route.events, 'burguerBtnEvent', ()=>{console.log('hello')});
-    // console.log(this.props.route.events.addListener(this.props.route.events, 'burguerBtnEvent', this.openSideMenuClick));
   }
 
 
@@ -69,29 +64,26 @@ export default class TabManager extends React.Component {
     if (!isOpen) {
       this.setState({openSideMenu: false});
     }
-    console.log('onChange', isOpen);
   }
 
   render() {
-
-    console.log('render', this.props.route.openSideMenu);
     return (
       <SideMenu
-      style={{backgroundColor: 'green'}}
-      menu={<SideMenuLeft/>}
+      menu={<SideMenuLeft userInfo={this.props.userInfo} />}
       openMenuOffset={window.width/2}
       disableGestures={true}
       onChange={this.onChangeSideMenu.bind(this)}
       isOpen={this.state.openSideMenu}>
+        <View style={{flex: 1, backgroundColor: '#285DA1'}}>
         <Tabbar
           selected={this.state.selected}
           onTabItemPress={this.onTabItemPress.bind(this)}
-          style={{backgroundColor: 'green'}}>
+          style={{ borderTopWidth: 1, borderColor: 'hotpink' }}>
           <Item name="home">
             <Item.Content>
               <Home navigator={this.props.navigator}/>
             </Item.Content>
-            <Item.Icon>
+            <Item.Icon >
                 <Image
                   style={styles.iconTab}
                   source={this.state.selected ==='home' ?
@@ -101,7 +93,7 @@ export default class TabManager extends React.Component {
           </Item>
           <Item name="makers">
             <Item.Content>
-            <Makers/>
+              <Makers/>
             </Item.Content>
             <Item.Icon>
               <Image
@@ -148,6 +140,7 @@ export default class TabManager extends React.Component {
             </Item.Icon>
           </Item>
         </Tabbar>
+        </View>
       </SideMenu>
     );
   }

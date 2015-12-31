@@ -29,6 +29,7 @@ class shapp extends React.Component{
     super(props);
     this.state = {
       hideNavBar: true,
+      userInfo: null
     };
   }
 
@@ -39,18 +40,24 @@ class shapp extends React.Component{
   renderScene (route, navigator) {
     let Component = route.component;
     let navBar = route.navigationBar;
+
     if (navBar) {
-     navBar = React.cloneElement(navBar, { navigator, route, });
+      navBar = React.cloneElement(navBar, { navigator, route, });
     }
 
     return (
       <View style={styles.app}>
         {route.navigationBar}
         <Component
+          userInfo={this.state.userInfo}
           route={route}
           navigator={navigator}/>
       </View>
     );
+  }
+
+  setUserInformation(userInfo) {
+    this.setState({userInfo});
   }
 
   render() {
@@ -58,7 +65,8 @@ class shapp extends React.Component{
       <Navigator
         renderScene={this.renderScene.bind(this)}
         initialRoute={{
-          component: Login
+          component: Login,
+          setUserInformation: this.setUserInformation.bind(this)
         }}
       />
     );

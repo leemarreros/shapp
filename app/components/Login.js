@@ -52,16 +52,16 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
+    var url = `${globalVar.restUrl}/api/session`;
     StatusBarIOS.setStyle('light-content');
-     fetch('http://localhost:8000/api/session')
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log(responseData);
-      if (responseData.session) this.switchToTabManager();
-    })
-    .done();
+     fetch(url)
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log('Login', responseData);
+        if (responseData.session) this.switchToTabManager();
+      })
+      .done();
     this.eventEmitter = new EventEmitter();
-
   }
 
   onSignUp() {
@@ -122,7 +122,7 @@ class Login extends React.Component {
     fetch(helpers.requestHelper(url, body, 'POST'))
     .then((response) => response.json())
     .then((responseData) => {
-      console.log(responseData);
+      console.log('onSignInpress', responseData);
       if (responseData.status === 'nonUser') {
 
         this.alertIOS('Unrecognized User', 'Please, sign up!');
@@ -134,6 +134,7 @@ class Login extends React.Component {
       } else if ( responseData.status === 'successLogin') {
 
         console.log('Successfull login');
+        this.props.route.setUserInformation(responseData.maker);
         this.alertIOS('Welcome again!', 'Please, continue.');
         this.switchToTabManager();
       }
@@ -187,7 +188,7 @@ class Login extends React.Component {
           this.alertIOS('Error logging in', 'Please try again!');
           return;
         }
-        console.log(userInfo);
+        // console.log('getAccesToken', userInfo);
 
         var url = `${globalVar.restUrl}/api/loginfb`;
         var body = {
@@ -197,11 +198,12 @@ class Login extends React.Component {
         fetch(helpers.requestHelper(url, body, 'POST'))
         .then((response) => response.json())
         .then((responseData) => {
-          console.log(responseData);
+          // console.log('getAccesToken 2', responseData.);
           if (responseData.status === 'noexist') {
             this.alertIOS('This user does not exist!', 'Please, Sign Up.');
           } else if (responseData.status = 'successLogin') {
             this.alertIOS('Welcome again to Shapp!', 'Please, Continue.');
+            this.props.route.setUserInformation(responseData.maker);
             this.switchToTabManager();
           }
         })
