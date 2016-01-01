@@ -2,6 +2,8 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import MakerDashboard from '../components/sideMenuButtoms/MakerDashboard';
+import NavigationBar from 'react-native-navbar';
 
 var window = Dimensions.get('window');
 
@@ -22,9 +24,6 @@ export default class SideMenuLeft extends React.Component {
     };
   }
 
-  componentWillMount() {
-  }
-
   onLogOutPress() {
     AlertIOS.alert('Loggin out!', 'Are you sure?',
       [
@@ -33,6 +32,35 @@ export default class SideMenuLeft extends React.Component {
       ],
       'secure-text'
     )
+  }
+
+  componentWillMount() {
+  }
+
+  onBurguerMenuPress() {
+    this.props.navigator.pop();
+  }
+
+  handleButtonPress(Component, title) {
+    this.props.navigator.push({
+      component: Component,
+      navigationBar: (
+        <NavigationBar
+          title={<Text style={{color: 'white', fontFamily: 'Avenir', fontWeight: 'bold'}}>{title}</Text>}
+          style={styles.navigationBar}
+          tintColor={'#285DA1'}
+          statusBar={{style: 'light-content', hidden: false}}
+          leftButton={
+            <TouchableOpacity
+              style={styles.buttonNavBar}
+              onPress={this.onBurguerMenuPress.bind(this)}>
+              <Image
+                source={require('../img/back-icon.png')}
+                style={[{ width: 20, height: 15}]}/>
+            </TouchableOpacity>
+          }/>
+      )
+    });
   }
 
   render() {
@@ -54,7 +82,12 @@ export default class SideMenuLeft extends React.Component {
             null
           }
         </View>
-        <View style={styles.buttons}>
+        <View style={styles.wrapperButtons}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.handleButtonPress.bind(this, MakerDashboard, 'I AM A MAKER')}>
+            <Text style={styles.buttonText}>I am a Maker</Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           style={styles.logOutWrap}
@@ -68,6 +101,33 @@ export default class SideMenuLeft extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  buttonNavBar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+    paddingBottom: 12,
+  },
+  navigationBar: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  buttonText: {
+    fontFamily: 'Avenir',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  button: {
+    height: 42,
+    borderTopWidth: 0.5,
+    borderTopColor: 'grey',
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   logOutText: {
     fontFamily: 'Avenir',
     fontSize: 18,
@@ -112,10 +172,10 @@ var styles = StyleSheet.create({
   userInfo: {
     flex: 3.3,
     borderBottomWidth: 0.5,
-    borderBottomColor: 'grey'
+    borderBottomColor: 'grey',
+    marginBottom: 15,
   },
-  buttons: {
-    backgroundColor: 'yellow',
+  wrapperButtons: {
     flex: 10,
   },
   sideMenu: {

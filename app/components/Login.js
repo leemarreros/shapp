@@ -62,6 +62,7 @@ class Login extends React.Component {
       })
       .done();
     this.eventEmitter = new EventEmitter();
+    this.opened = false;
   }
 
   onSignUp() {
@@ -144,16 +145,23 @@ class Login extends React.Component {
   }
 
 
-  onBurguerMenuPress() {
-    this.eventEmitter.emit('burguerBtnEvent', true);
-    console.log('side menu press');
+  onBurguerMenuPress(bool) {
+    if (!this.opened) {
+      this.eventEmitter.emit('burguerBtnEvent', true);
+      this.opened = true;
+    } else {
+      this.eventEmitter.emit('burguerBtnEvent', false);
+    }
+    if (!bool) {
+      this.opened = false;
+      this.eventEmitter.emit('burguerBtnEvent', false);
+    }
   }
-
   switchToTabManager() {
     this.props.navigator.push({
       component: TabManager,
-      openSideMenu: this.state.openSideMenu,
       events: this.eventEmitter,
+      onBurguerMenuPress: this.onBurguerMenuPress.bind(this),
       onLogOutPress: this.onLogOutPress.bind(this),
       navigationBar: (
         <NavigationBar

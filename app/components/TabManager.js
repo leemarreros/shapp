@@ -47,11 +47,6 @@ export default class TabManager extends React.Component {
   componentWillReceiveProps(nextProps) {
   }
 
-
-  openSideMenuClick(args) {
-    this.setState({openSideMenu: args.open})
-  }
-
   componentWillMount() {
     this.props.route.events.addListener('burguerBtnEvent',
       (args) => {
@@ -61,19 +56,22 @@ export default class TabManager extends React.Component {
 
 
   onChangeSideMenu(isOpen) {
-    if (!isOpen) {
-      this.setState({openSideMenu: false});
+    if (isOpen === false) {
+      this.props.route.onBurguerMenuPress(false);
     }
   }
 
   render() {
     return (
       <SideMenu
-      menu={<SideMenuLeft userInfo={this.props.userInfo} onLogOutPress={this.props.route.onLogOutPress} />}
-      openMenuOffset={window.width/2}
-      disableGestures={true}
-      onChange={this.onChangeSideMenu.bind(this)}
-      isOpen={this.state.openSideMenu}>
+        menu={<SideMenuLeft
+                userInfo={this.props.userInfo}
+                onLogOutPress={this.props.route.onLogOutPress}
+                navigator={this.props.navigator}/>}
+        openMenuOffset={window.width/2}
+        disableGestures={true}
+        onChange={this.onChangeSideMenu.bind(this)}
+        isOpen={this.state.openSideMenu}>
         <View style={{flex: 1, backgroundColor: '#285DA1'}}>
         <Tabbar
           selected={this.state.selected}
