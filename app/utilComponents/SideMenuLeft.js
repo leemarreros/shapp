@@ -140,6 +140,8 @@ var styles = StyleSheet.create({
     marginRight: 5
   },
   logOutWrap: {
+    borderTopColor: 'grey',
+    borderTopWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

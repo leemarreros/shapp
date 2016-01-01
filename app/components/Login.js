@@ -248,6 +248,7 @@ class Login extends React.Component {
     };
     fetch(helpers.requestHelper(url, body, 'POST'))
     .done();
+    this.opened = false;
   }
 
   componentDidMount() {

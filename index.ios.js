@@ -8,7 +8,11 @@ import React from 'react-native';
 import Login from './app/components/Login';
 import SignUp from './app/components/SignUp';
 import TabManager from './app/components/TabManager';
+import SideMenu from 'react-native-side-menu';
+import SideMenuLeft from './app/utilComponents/SideMenuLeft'
 
+var EventEmitter = require('EventEmitter');
+var Subscribable = require('Subscribable');
 
 var {
   AppRegistry,
@@ -29,12 +33,16 @@ class shapp extends React.Component{
     super(props);
     this.state = {
       hideNavBar: true,
-      userInfo: null
+      userInfo: null,
+      openSideMenu: false,
     };
   }
 
   componentWillMount() {
     StatusBarIOS.setStyle('light-content');
+  }
+
+  componentWillMount() {
   }
 
   renderScene (route, navigator) {
