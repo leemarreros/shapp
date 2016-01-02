@@ -7,6 +7,8 @@ import PublishArticle from '../makerDashboard/PublishArticle';
 import UpdateProfile from '../makerDashboard/UpdateProfile';
 import UploadWork from '../makerDashboard/UploadWork';
 
+import globalVar from '../../utils/globalVariables';
+
 var window = Dimensions.get('window');
 
 let {
@@ -19,6 +21,29 @@ let {
   Image
 } = React;
 
+class ProgressBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  render () {
+    return (
+      <View style={styles.wrapperProgressView}>
+        <View style={[styles.textProgressContainer, {width: this.props.widthContainer}]}>
+          <Text style={styles.profileCompletionText}>Profile completed {this.props.progress*100}%</Text>
+        </View>
+        <ProgressViewIOS
+          style={{backgroundColor: '#F2F2F2'}}
+          progressTintColor='#50E3C2'
+          progressViewStyle={'bar'}
+          progress={this.props.progress}/>
+      </View>
+    );
+  }
+}
+
 export default class MakerDashboard extends React.Component {
 
   constructor(props) {
@@ -26,11 +51,15 @@ export default class MakerDashboard extends React.Component {
     this.state = {
       progress: 0,
       widthContainer: 105,
+      articles: null,
+      work: null
     };
   }
 
   componentWillMount() {
     this.calculateProgress();
+    this.gettingUserArticles();
+    this.gettingUserWork();
   }
 
   calculateProgress() {
@@ -52,9 +81,35 @@ export default class MakerDashboard extends React.Component {
     this.setState({widthContainer: Math.max(per*window.width, 105)})
   }
 
+  gettingUserArticles() {
+    var url = `${globalVar.restUrl}/api/articles/${this.props.userInfo.fbId}`;
+     fetch(url)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({articles: responseData.data});
+      })
+      .done();
+  }
+
+  gettingUserWork() {
+     var url = `${globalVar.restUrl}/api/work/${this.props.userInfo.fbId}`;
+     fetch(url)
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({work: responseData.data});
+      })
+      .done();
+  }
+
   handlePressIconsD(component, title) {
     this.props.navigator.push({
       component,
+      progressBar: ProgressBar,
+      progress: this.state.progress,
+      widthContainer: this.state.widthContainer,
+      profile: this.props.userInfo,
+      work: this.state.work,
+      articles: this.state.articles,
       navigationBar: (
         <NavigationBar
           title={<Text style={styles.titleSignUp}>{title}</Text>}
@@ -90,28 +145,23 @@ export default class MakerDashboard extends React.Component {
               <Text style={styles.namesText}>Create a user name</Text>}
           </View>
         </View>
-        <View style={styles.wrapperProgressView}>
-          <View style={[styles.textProgressContainer, {width: this.state.widthContainer}]}>
-            <Text style={styles.profileCompletionText}>Profile completed {this.state.progress*100}%</Text>
-          </View>
-          <ProgressViewIOS
-            style={{backgroundColor: '#F2F2F2'}}
-            progressTintColor='#50E3C2'
-            progressViewStyle={'bar'}
-            progress={this.state.progress}/>
-        </View>
+
+        <ProgressBar
+          progress={this.state.progress}
+          widthContainer={this.state.widthContainer}/>
+
         <View style={styles.downSide}>
-          <TouchableOpacity
-            onPress={this.handlePressIconsD.bind(this, PublishArticle, 'PUBLISH')}
-            style={styles.buttonDashboard}>
-            <Image style={styles.iconButton} source={require('../../img/article-icon.png')}/>
-            <Text style={styles.textIcon}>Publish an article</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             onPress={this.handlePressIconsD.bind(this, UpdateProfile, 'PROFILE')}
             style={styles.buttonDashboard}>
             <Image style={styles.iconButton} source={require('../../img/profile-maker-icon.png')}/>
             <Text style={styles.textIcon}>Update profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.handlePressIconsD.bind(this, PublishArticle, 'PUBLISH')}
+            style={styles.buttonDashboard}>
+            <Image style={styles.iconButton} source={require('../../img/article-icon.png')}/>
+            <Text style={styles.textIcon}>Publish an article</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.handlePressIconsD.bind(this, UploadWork, 'WORK')}
@@ -192,7 +242,6 @@ var styles = StyleSheet.create({
   topSide: {
     flex:1 ,
     alignItems: 'center',
-    // justifyContent: 'flex-start'
   },
   makerDashboard: {
     flex:1 ,
