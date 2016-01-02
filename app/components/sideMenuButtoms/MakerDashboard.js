@@ -2,6 +2,10 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import NavigationBar from 'react-native-navbar';
+import PublishArticle from '../makerDashboard/PublishArticle';
+import UpdateProfile from '../makerDashboard/UpdateProfile';
+import UploadWork from '../makerDashboard/UploadWork';
 
 var window = Dimensions.get('window');
 
@@ -48,6 +52,26 @@ export default class MakerDashboard extends React.Component {
     this.setState({widthContainer: Math.max(per*window.width, 105)})
   }
 
+  handlePressIconsD(component, title) {
+    this.props.navigator.push({
+      component,
+      navigationBar: (
+        <NavigationBar
+          title={<Text style={styles.titleSignUp}>{title}</Text>}
+          style={styles.navigationBar}
+          tintColor={'#285DA1'}
+          statusBar={{style: 'light-content', hidden: false}}
+          leftButton={
+            <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+              <Image
+                source={require('../../img/back-icon.png')}
+                style={[{ width: 15, height: 15}]}/>
+            </TouchableOpacity>
+          }/>
+      )
+    })
+  }
+
   render() {
     return (
       <View style={styles.makerDashboard}>
@@ -78,16 +102,19 @@ export default class MakerDashboard extends React.Component {
         </View>
         <View style={styles.downSide}>
           <TouchableOpacity
+            onPress={this.handlePressIconsD.bind(this, PublishArticle, 'PUBLISH')}
             style={styles.buttonDashboard}>
             <Image style={styles.iconButton} source={require('../../img/article-icon.png')}/>
             <Text style={styles.textIcon}>Publish an article</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={this.handlePressIconsD.bind(this, UpdateProfile, 'PROFILE')}
             style={styles.buttonDashboard}>
             <Image style={styles.iconButton} source={require('../../img/profile-maker-icon.png')}/>
             <Text style={styles.textIcon}>Update profile</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={this.handlePressIconsD.bind(this, UploadWork, 'WORK')}
             style={styles.buttonDashboard}>
             <Image style={styles.iconButton} source={require('../../img/work-maker-icon.png')}/>
             <Text style={styles.textIcon}>Upload work</Text>
