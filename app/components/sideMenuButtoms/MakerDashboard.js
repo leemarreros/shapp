@@ -176,6 +176,25 @@ export default class MakerDashboard extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  navigationBar: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  titleSignUp: {
+    fontFamily: 'Avenir',
+    fontWeight: '500',
+    fontSize: 15,
+    color: 'white',
+  },
+  buttonNavBar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+    paddingBottom: 12,
+  },
   wrapperProgressView: {
     justifyContent: 'flex-end'
   },

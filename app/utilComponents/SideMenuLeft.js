@@ -56,7 +56,7 @@ export default class SideMenuLeft extends React.Component {
               onPress={this.onBurguerMenuPress.bind(this)}>
               <Image
                 source={require('../img/back-icon.png')}
-                style={[{ width: 20, height: 15}]}/>
+                style={[{ width: 15, height: 15}]}/>
             </TouchableOpacity>
           }/>
       )
