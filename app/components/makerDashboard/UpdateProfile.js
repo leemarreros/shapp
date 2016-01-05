@@ -2,6 +2,7 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import CameraRoll from '../camera/CameraRoll';
 
 var window = Dimensions.get('window');
 
@@ -39,6 +40,7 @@ export default class UpdateProfile extends React.Component {
       zipcode: null,
       city: null,
       state: null,
+      modalOpen: false,
     };
   }
 
@@ -58,13 +60,57 @@ export default class UpdateProfile extends React.Component {
 
   }
 
+  openModalSelection() {
+    this.setState({modalOpen: true});
+    console.log('clicked open modal');
+  }
+
+  handleModalSelection(type) {
+
+    this.setState({modalOpen: false});
+    switch (type) {
+      case 'camera':
+        // this.props.navigator.pop({
+        //   component: Camera,
+
+        // })
+        break;
+
+      case 'file':
+        this.props.navigator.push({
+          component: CameraRoll,
+          navigationBar: (
+            <NavigationBar
+              title={<Text style={styles.titleSignUp}>SELECT A PICTURE</Text>}
+              style={styles.navigationBar}
+              tintColor={'#285DA1'}
+              statusBar={{style: 'light-content', hidden: false}}
+              leftButton={
+                <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+                  <Image
+                    source={require('../../img/back-icon.png')}
+                    style={[{ width: 15, height: 15}]}/>
+                </TouchableOpacity>
+              }/>
+          )
+        });
+
+        break;
+
+      default:
+        return;
+    }
+  }
+
   render() {
+    console.log(this.state.modalOpen);
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }} >
         <View style={styles.title}>
           <Text style={styles.titleText}>Share who you are with the</Text>
           <Text style={styles.titleText}>world!</Text>
         </View>
+
         <this.props.route.progressBar
           progress={this.props.route.progress}
           widthContainer={this.props.route.widthContainer}/>
@@ -106,7 +152,7 @@ export default class UpdateProfile extends React.Component {
             </View>
             <View style={{flex: 1}}>
               <Text
-                style={[styles.fieldName, {textAlign: 'right', marginRight: 10, fontWeight: 'bold'}]}>
+                style={[styles.fieldName, {textAlign: 'right', marginRight: 15, fontWeight: 'bold'}]}>
                 GET CURRENT POSITION
               </Text>
             </View>
@@ -176,7 +222,7 @@ export default class UpdateProfile extends React.Component {
             <View style={{flex: 1}}>
               <TextInput
                 value={this.state.bioIn}
-                style={[styles.inputBox, {height: 150}]}
+                style={[styles.inputBox, {height: 150, paddingTop: 10}]}
                 multiline={true}
                 placeholder="Give details about yourself and work experience. Tha more the merrier!"
                 onChangeText={(bio) => this.setState({bio})}/>
@@ -189,16 +235,21 @@ export default class UpdateProfile extends React.Component {
             </View>
           </View>
 
-          <View style={[styles.fieldContainer, {height: 150}]}>
-            <View style={{flex: 1}}>
-              <Image source={{uri: this.state.pictureIn}}/>
+          <View style={[styles.fieldContainer, {height: 500}]}>
+            <View style={{height: 500, width: window.width, alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column'}}>
+              <Image style={styles.picture} source={{uri: this.state.pictureIn}}/>
+              <TouchableOpacity
+                onPress={this.openModalSelection.bind(this)}
+                style={styles.changePicture}>
+                <Text style={styles.changePictureText}>Add/Change picture</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
         </ScrollView>
 
         <View style={styles.buttons}>
-           <TouchableOpacity
+          <TouchableOpacity
             onPress={this.handleSavePress.bind(this)}
             style={styles.iconSave}>
             <Text style={styles.textSave}>SAVE CHANGES</Text>
@@ -209,12 +260,82 @@ export default class UpdateProfile extends React.Component {
             <Text style={styles.textPublish}>PUBLISH</Text>
           </TouchableOpacity>
         </View>
+
+        {this.state.modalOpen ?
+         <View style={styles.modal}>
+          <TouchableOpacity style={styles.modalBackground} onPress={()=>{this.setState({modalOpen: false})}}/>
+          <TouchableOpacity
+            onPress={this.handleModalSelection.bind(this, 'camera')}
+            style={styles.modalButton}>
+            <Text style={styles.modelText}>TAKE PICTURE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.handleModalSelection.bind(this, 'file')}
+            style={styles.modalButton}>
+            <Text style={styles.modelText}>CHOOSE FROM FILE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={()=>{this.setState({modalOpen: false})}}
+            style={[styles.modalButton, {backgroundColor: 'grey'}]}>
+            <Text style={styles.modelText}>CANCEL</Text>
+          </TouchableOpacity>
+         </View>
+        :null}
       </View>
     );
   }
 }
 
 var styles = StyleSheet.create({
+  modal: {
+    top: 185,
+    position: 'absolute',
+    width: window.width * 0.85,
+    height: 210,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalBackground: {
+    backgroundColor: '#50E3C2',
+    width: window.width,
+    height: window.height,
+    opacity: 0.90,
+    position: 'absolute',
+    top: -185
+  },
+  modalButton: {
+    flex: 1,
+    width: window.width * 0.85,
+    marginLeft: 56,
+    backgroundColor: '#285DA1',
+    borderColor: '#50E3C2',
+    borderWidth: 0.5,
+    justifyContent: 'center'
+  },
+  modelText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 15,
+    fontFamily: 'Avenir',
+    fontWeight: 'bold'
+  },
+  picture: {
+    width: 300,
+    height: 300,
+    resizeMode: 'cover',
+    marginTop: 15,
+  },
+  changePicture: {
+    width: window.width/2,
+    height: 43,
+  },
+  changePictureText: {
+    textAlign: 'center',
+    fontFamily: 'Avenir',
+    fontSize: 15,
+    paddingTop: 10
+  },
   fieldContainer: {
     alignItems: 'center',
     width: window.width,
@@ -225,6 +346,7 @@ var styles = StyleSheet.create({
     height: 43,
     fontFamily: 'Avenir-Book',
     fontWeight: "100",
+    fontStyle: 'italic',
     fontSize: 13,
     paddingLeft: 13,
     textAlign: 'left'
@@ -247,7 +369,7 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   title: {
-    height: 118,
+    height: 85,
     width: window.width,
     alignItems: 'center',
     justifyContent: 'center',
