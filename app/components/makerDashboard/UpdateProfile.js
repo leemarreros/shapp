@@ -6,6 +6,17 @@ import CameraShowRoll from '../camera/CameraShowRoll';
 import CameraLive from '../camera/CameraLive';
 import NavigationBar from 'react-native-navbar';
 import Geocoder from 'react-native-geocoder';
+import FBSDKCore from 'react-native-fbsdkcore';
+import FBSDKLogin from 'react-native-fbsdklogin';
+
+var {
+  FBSDKLoginManager,
+} = FBSDKLogin;
+
+var {
+  FBSDKAccessToken,
+  FBSDKGraphRequest
+} = FBSDKCore;
 
 var window = Dimensions.get('window');
 
@@ -47,7 +58,9 @@ export default class UpdateProfile extends React.Component {
       state: null,
       modalOpen: false,
       userPosition: null,
-      animating: false,
+      animatingPos: false,
+      animatingEmail: false,
+      animatingBio: false,
     };
   }
 
@@ -69,7 +82,6 @@ export default class UpdateProfile extends React.Component {
 
   openModalSelection() {
     this.setState({modalOpen: true});
-    console.log('clicked open modal');
   }
 
   handleModalSelection(type) {
@@ -109,7 +121,8 @@ export default class UpdateProfile extends React.Component {
   }
 
   onPressCurrentPosition(count) {
-    this.setState({animating: true});
+    console.log('onPressCurrentPosition');
+    this.setState({animatingPos: true});
     navigator.geolocation.getCurrentPosition(
       (userPosition) => {
         var coords = {
@@ -126,8 +139,12 @@ export default class UpdateProfile extends React.Component {
             cityIn: data[0].locality,
             stateIn: data[0].administrativeArea,
             zipcodeIn: data[0].postalCode,
+            address: data[0].name,
+            city: data[0].locality,
+            state: data[0].administrativeArea,
+            zipcode: data[0].postalCode,
           });
-          this.setState({animating: false});
+          this.setState({animatingPos: false});
         })
       },
       (error) => {
@@ -144,6 +161,90 @@ export default class UpdateProfile extends React.Component {
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
+  }
+
+  async getAccesToken(selection) {
+    var responseToken = await (FBSDKAccessToken.getCurrentAccessToken((token) => {
+    let fetchProfileRequest;
+      if(!token) {
+        console.log('No token founded');
+        this.alertIOS('Error getting email', 'Please sign in or try again!');
+        return;
+      }
+      if (selection === 'bio') {
+
+        fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
+          if (error) {
+            console.warn('FBSDKGraphRequest', error);
+            this.alertIOS('Error retrieving bio', 'Please sign in or try again!');
+            return;
+          }
+          console.log('userInfo', userInfo);
+          this.setState({
+            bio: userInfo.bio,
+            bioIn: userInfo.bio,
+            animatingBio: false,
+          });
+        }, 'me?fields=bio');
+
+      } else {
+
+        fetchProfileRequest = new FBSDKGraphRequest((error, userInfo) => {
+          if (error) {
+            console.warn('FBSDKGraphRequest', error);
+            this.alertIOS('Error getting email', 'Please sign in or try again!');
+            return;
+          }
+          console.log('userInfo', userInfo);
+          this.setState({
+            emailIn: userInfo.email,
+            email: userInfo.email,
+            animatingEmail: false,
+          });
+        }, 'me?fields=email');
+
+      }
+
+      fetchProfileRequest.start(0);
+    }));
+  }
+
+  alertIOS(title, message) {
+    AlertIOS.alert(title, message,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]
+    )
+  }
+
+  onGetDataFromFacebook(selection) {
+    if (selection === 'bio') {
+      this.setState({animatingBio: true});
+      FBSDKLoginManager.logInWithReadPermissions(['user_about_me'], (error, result) => {
+        if (error) {
+          alert('Error getting bio.');
+        } else {
+          if (result.isCanceled) {
+            alert('Cancelled.');
+          } else {
+            this.getAccesToken(selection);
+          }
+        }
+      });
+      return;
+    }
+    this.setState({animatingEmail: true});
+    FBSDKLoginManager.logInWithReadPermissions(['email'], (error, result) => {
+      if (error) {
+        alert('Error getting e-mail.');
+      } else {
+        if (result.isCanceled) {
+          alert('Cancelled.');
+        } else {
+          this.getAccesToken();
+        }
+      }
+    });
   }
 
   render() {
@@ -196,7 +297,7 @@ export default class UpdateProfile extends React.Component {
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
                <ActivityIndicatorIOS
-                  animating={this.state.animating}
+                  animating={this.state.animatingPos}
                   style={[styles.centering, {height: 20}]}
                   size="small"/>
               <TouchableOpacity
@@ -251,6 +352,20 @@ export default class UpdateProfile extends React.Component {
             <View style={{flex: 1}}>
               <Text style={styles.fieldName}>E-MAIL</Text>
             </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+               <ActivityIndicatorIOS
+                  animating={this.state.animatingEmail}
+                  style={[styles.centering, {height: 20}]}
+                  size="small"/>
+              <TouchableOpacity
+                onPress={this.onGetDataFromFacebook.bind(this)}
+                style={{flex: 1}}>
+                <Text
+                  style={[styles.fieldName, {textAlign: 'right', marginRight: 15, fontWeight: 'bold'}]}>
+                  GET EMAIL FROM FB
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.fieldContainer}>
@@ -267,6 +382,20 @@ export default class UpdateProfile extends React.Component {
           <View style={styles.titleFieldBar}>
             <View style={{flex: 1}}>
               <Text style={styles.fieldName}>BIO</Text>
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+               <ActivityIndicatorIOS
+                  animating={this.state.animatingEmail}
+                  style={[styles.centering, {height: 20}]}
+                  size="small"/>
+              <TouchableOpacity
+                onPress={this.onGetDataFromFacebook.bind(this, 'bio')}
+                style={{flex: 1}}>
+                <Text
+                  style={[styles.fieldName, {textAlign: 'right', marginRight: 15, fontWeight: 'bold'}]}>
+                  GET BIO FROM FB
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -344,7 +473,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
   gray: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#50E3C2',
   },
   modal: {
     top: 185,
