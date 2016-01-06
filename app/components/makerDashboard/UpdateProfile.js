@@ -5,6 +5,7 @@ import Dimensions from 'Dimensions';
 import CameraShowRoll from '../camera/CameraShowRoll';
 import CameraLive from '../camera/CameraLive';
 import NavigationBar from 'react-native-navbar';
+import Geocoder from 'react-native-geocoder';
 
 var window = Dimensions.get('window');
 
@@ -12,11 +13,13 @@ let {
   View,
   Text,
   Image,
+  AlertIOS,
   TextInput,
   StyleSheet,
   ScrollView,
   ProgressViewIOS,
   TouchableOpacity,
+  ActivityIndicatorIOS,
 } = React;
 
 export default class UpdateProfile extends React.Component {
@@ -43,6 +46,8 @@ export default class UpdateProfile extends React.Component {
       city: null,
       state: null,
       modalOpen: false,
+      userPosition: null,
+      animating: false,
     };
   }
 
@@ -103,8 +108,46 @@ export default class UpdateProfile extends React.Component {
     }
   }
 
+  onPressCurrentPosition(count) {
+    this.setState({animating: true});
+    navigator.geolocation.getCurrentPosition(
+      (userPosition) => {
+        var coords = {
+          latitude: userPosition.coords.latitude,
+          longitude: userPosition.coords.longitude,
+        }
+        console.log(userPosition);
+        console.log('coords', coords);
+        Geocoder.reverseGeocodeLocation(coords, (err, data) => {
+          if (err) { console.log(err); return;}
+          console.log(data);
+          this.setState({
+            addressIn: data[0].name,
+            cityIn: data[0].locality,
+            stateIn: data[0].administrativeArea,
+            zipcodeIn: data[0].postalCode,
+          });
+          this.setState({animating: false});
+        })
+      },
+      (error) => {
+        count = !count ? 1 : (count + 1);
+        var txt = count <= 3 ? 'We are having trouble finding your location.' : 'We can\'t locate you.\nEnsure your location service is enabled.';
+        AlertIOS.alert(
+          'Yikes',
+          txt,
+          [
+            {text: 'Try Again', onPress: this.onPressCurrentPosition.bind(this, count)}
+          ]
+        )
+        console.warn(error.message);
+      },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
+  }
+
   render() {
-    console.log(this.state.modalOpen);
+    console.log(this.state.zipcode);
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }} >
         <View style={styles.title}>
@@ -151,11 +194,19 @@ export default class UpdateProfile extends React.Component {
             <View style={{flex: 1}}>
               <Text style={styles.fieldName}>ADDRESS</Text>
             </View>
-            <View style={{flex: 1}}>
-              <Text
-                style={[styles.fieldName, {textAlign: 'right', marginRight: 15, fontWeight: 'bold'}]}>
-                GET CURRENT POSITION
-              </Text>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+               <ActivityIndicatorIOS
+                  animating={this.state.animating}
+                  style={[styles.centering, {height: 20}]}
+                  size="small"/>
+              <TouchableOpacity
+                onPress={this.onPressCurrentPosition.bind(this)}
+                style={{flex: 1}}>
+                <Text
+                  style={[styles.fieldName, {textAlign: 'right', marginRight: 15, fontWeight: 'bold'}]}>
+                  GET CURRENT POSITION
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -288,6 +339,13 @@ export default class UpdateProfile extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gray: {
+    backgroundColor: '#ccc',
+  },
   modal: {
     top: 185,
     position: 'absolute',
