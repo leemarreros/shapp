@@ -2,7 +2,9 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
-import CameraRoll from '../camera/CameraRoll';
+import CameraShowRoll from '../camera/CameraShowRoll';
+import CameraLive from '../camera/CameraLive';
+import NavigationBar from 'react-native-navbar';
 
 var window = Dimensions.get('window');
 
@@ -70,15 +72,14 @@ export default class UpdateProfile extends React.Component {
     this.setState({modalOpen: false});
     switch (type) {
       case 'camera':
-        // this.props.navigator.pop({
-        //   component: Camera,
-
-        // })
+        this.props.navigator.push({
+          component: CameraLive,
+        })
         break;
 
       case 'file':
         this.props.navigator.push({
-          component: CameraRoll,
+          component: CameraShowRoll,
           navigationBar: (
             <NavigationBar
               title={<Text style={styles.titleSignUp}>SELECT A PICTURE</Text>}

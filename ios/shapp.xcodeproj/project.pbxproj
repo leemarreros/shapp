@@ -27,6 +27,8 @@
 		9F4EC53A1C1AA97400FE19F2 /* libRCTFBSDKLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC5391C1AA92300FE19F2 /* libRCTFBSDKLogin.a */; };
 		9F4EC53B1C1AA97900FE19F2 /* libRCTFBSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC5331C1AA91B00FE19F2 /* libRCTFBSDKCore.a */; };
 		9F4EC53D1C1CDF8300FE19F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F4EC53C1C1CDF8300FE19F2 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		9F55101B1C3C69BA0065CABA /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F55100F1C3C69510065CABA /* libRCTCameraRoll.a */; };
+		9F73AECB1C3CA02700872C29 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F73AEBE1C3CA01300872C29 /* libRCTCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +123,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTFBSDKLogin;
 		};
+		9F55100E1C3C69510065CABA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F5510091C3C69500065CABA /* RCTCameraRoll.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTCameraRoll;
+		};
+		9F73AEBD1C3CA01300872C29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F73AEB81C3CA01300872C29 /* RCTCamera.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
+			remoteInfo = RCTCamera;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -150,6 +166,8 @@
 		9F4EC52E1C1AA91B00FE19F2 /* RCTFBSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKCore.xcodeproj; path = "../node_modules/react-native-fbsdkcore/RCTFBSDKCore.xcodeproj"; sourceTree = "<group>"; };
 		9F4EC5341C1AA92300FE19F2 /* RCTFBSDKLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKLogin.xcodeproj; path = "../node_modules/react-native-fbsdklogin/RCTFBSDKLogin.xcodeproj"; sourceTree = "<group>"; };
 		9F4EC53C1C1CDF8300FE19F2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9F5510091C3C69500065CABA /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
+		9F73AEB81C3CA01300872C29 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +184,9 @@
 			files = (
 				9F4EC53B1C1AA97900FE19F2 /* libRCTFBSDKCore.a in Frameworks */,
 				9F4EC53A1C1AA97400FE19F2 /* libRCTFBSDKLogin.a in Frameworks */,
+				9F55101B1C3C69BA0065CABA /* libRCTCameraRoll.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				9F73AECB1C3CA02700872C29 /* libRCTCamera.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				9F4EC52D1C1AA70700FE19F2 /* FBSDKLoginKit.framework in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -289,6 +309,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9F73AEB81C3CA01300872C29 /* RCTCamera.xcodeproj */,
+				9F5510091C3C69500065CABA /* RCTCameraRoll.xcodeproj */,
 				9F4EC5341C1AA92300FE19F2 /* RCTFBSDKLogin.xcodeproj */,
 				9F4EC52E1C1AA91B00FE19F2 /* RCTFBSDKCore.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -370,6 +392,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9F55100A1C3C69500065CABA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F55100F1C3C69510065CABA /* libRCTCameraRoll.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9F73AEB91C3CA01300872C29 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F73AEBE1C3CA01300872C29 /* libRCTCamera.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -439,6 +477,14 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 9F73AEB91C3CA01300872C29 /* Products */;
+					ProjectRef = 9F73AEB81C3CA01300872C29 /* RCTCamera.xcodeproj */;
+				},
+				{
+					ProductGroup = 9F55100A1C3C69500065CABA /* Products */;
+					ProjectRef = 9F5510091C3C69500065CABA /* RCTCameraRoll.xcodeproj */;
 				},
 				{
 					ProductGroup = 9F4EC52F1C1AA91B00FE19F2 /* Products */;
@@ -578,6 +624,20 @@
 			remoteRef = 9F4EC5381C1AA92300FE19F2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9F55100F1C3C69510065CABA /* libRCTCameraRoll.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCameraRoll.a;
+			remoteRef = 9F55100E1C3C69510065CABA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9F73AEBE1C3CA01300872C29 /* libRCTCamera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCamera.a;
+			remoteRef = 9F73AEBD1C3CA01300872C29 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -702,6 +762,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"/Users/steveleec/Documents/FacebookSDK/**",
+					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = shapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -721,6 +782,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"/Users/steveleec/Documents/FacebookSDK/**",
+					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = shapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

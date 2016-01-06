@@ -13,6 +13,7 @@
     "mongoose": "^4.3.0",
     "morgan": "~1.6.1",
     "react-native": "^0.16.0",
+    "react-native-camera": "^0.3.8",
     "react-native-fbsdkcore": "0.0.7",
     "react-native-fbsdklogin": "0.0.7",
     "react-native-navbar": "^1.0.7",
