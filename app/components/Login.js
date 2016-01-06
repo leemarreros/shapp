@@ -218,7 +218,7 @@ class Login extends React.Component {
         })
         .done();
 
-      }, 'me');
+      }, 'me?fields=name');
 
       fetchProfileRequest.start(0);
     }));

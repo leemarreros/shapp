@@ -24,12 +24,16 @@ export default class CameraShowRoll extends React.Component {
     super(props);
     this.state = {
       images: [],
+      groupTypes: 'SavedPhotos',
+      assetType: 'Photos',
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     var fetchParams = {
-      first: 25
+      first: 25,
+      groupTypes: this.state.groupTypes,
+      assetType: this.state.assetType,
     };
 
     CameraRoll.getPhotos(fetchParams, this.storeImages.bind(this), this.logError);
@@ -41,6 +45,7 @@ export default class CameraShowRoll extends React.Component {
     this.setState({
       images: images
     });
+    console.log('imges', data);
   }
 
   logError (error) {

@@ -99,7 +99,6 @@ export default class UpdateProfile extends React.Component {
       fetch(helpers.requestHelper(url, body, 'POST'))
         .then((response) => response.json())
         .then((responseData) => {
-          console.log('responseData', responseData.status);
           this.setState({savingData: false});
         })
         .done();
@@ -107,7 +106,8 @@ export default class UpdateProfile extends React.Component {
   }
 
   handlePublishPress() {
-
+    this.handleSavePress.bind(this);
+    this.props.navigator.pop();
   }
 
   openModalSelection() {
@@ -164,7 +164,6 @@ export default class UpdateProfile extends React.Component {
         })
         Geocoder.reverseGeocodeLocation(coords, (err, data) => {
           if (err) { console.log(err); return;}
-          console.log(data);
           this.setState({
             addressIn: data[0].name,
             cityIn: data[0].locality,
@@ -210,7 +209,7 @@ export default class UpdateProfile extends React.Component {
             this.alertIOS('Error retrieving bio', 'Please sign in or try again!');
             return;
           }
-          console.log('userInfo', userInfo);
+
           this.setState({
             bio: userInfo.bio,
             bioIn: userInfo.bio,
@@ -226,7 +225,7 @@ export default class UpdateProfile extends React.Component {
             this.alertIOS('Error getting email', 'Please sign in or try again!');
             return;
           }
-          console.log('userInfo', userInfo);
+
           this.setState({
             emailIn: userInfo.email,
             email: userInfo.email,

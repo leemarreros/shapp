@@ -28,6 +28,7 @@
 		9F4EC53B1C1AA97900FE19F2 /* libRCTFBSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F4EC5331C1AA91B00FE19F2 /* libRCTFBSDKCore.a */; };
 		9F4EC53D1C1CDF8300FE19F2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F4EC53C1C1CDF8300FE19F2 /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		9F55101B1C3C69BA0065CABA /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F55100F1C3C69510065CABA /* libRCTCameraRoll.a */; };
+		9F5CD6431C3DA7B5006ED01C /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; settings = {ASSET_TAGS = (); }; };
 		9F73AECB1C3CA02700872C29 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F73AEBE1C3CA01300872C29 /* libRCTCamera.a */; };
 		9F73AED21C3CB0E000872C29 /* libRNGeocoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F73AED11C3CB0CC00872C29 /* libRNGeocoder.a */; };
 /* End PBXBuildFile section */
@@ -685,6 +686,7 @@
 				9F4EC53D1C1CDF8300FE19F2 /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				9F1DABAE1C16113000200596 /* Avenir.ttc in Resources */,
+				9F5CD6431C3DA7B5006ED01C /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +797,7 @@
 					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = shapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
@@ -815,6 +818,7 @@
 					"$(SRCROOT)/../../../React/**",
 				);
 				INFOPLIST_FILE = shapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
@@ -863,7 +867,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -904,7 +908,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
