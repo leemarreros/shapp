@@ -48,7 +48,7 @@ export default class UpdateProfile extends React.Component {
       pictureIn: this.props.userInfo.picture || '',
       bioIn: this.props.userInfo.bio || '',
       addressIn: this.props.userInfo.address.address || '',
-      zipcodeIn: this.props.userInfo.address.zipcode || '',
+      zipcodeIn: "" + this.props.userInfo.address.zipcode || '',
       cityIn: this.props.userInfo.address.city || '',
       stateIn: this.props.userInfo.address.state || '',
       latitude: "",
@@ -66,6 +66,7 @@ export default class UpdateProfile extends React.Component {
       animatingPos: false,
       animatingEmail: false,
       animatingBio: false,
+      savingData: false,
     };
   }
 
@@ -77,24 +78,29 @@ export default class UpdateProfile extends React.Component {
   }
 
   handleSavePress() {
-    var url = `${globalVar.restUrl}/api/makerprofileupdate/${this.props.userInfo.fbId}`;
+    this.setState({savingData: true});
+    var url = `${globalVar.restUrl}/api/makerprofileupdate`;
     var body = {};
     if (this.state.name != this.props.userInfo.name && this.state.name != "") body.name = this.state.name;
     !!this.state.username ? body.username = this.state.username : null;
-    !!this.state.address ? body.address = this.state.address: null;
-    !!this.state.city ? body.city = this.state.city: null;
-    !!this.state.state ? body.state = this.state.state: null;
-    !!this.state.zipcode ? body.zipcode = this.state.zipcode: null;
-    !!this.state.latitude ? body.latitude = this.state.latitude: null;
-    !!this.state.longitude ? body.longitude = this.state.longitude: null;
-    !!this.state.email ? body.email = this.state.email: null;
-    !!this.state.bio ? body.bio = this.state.bio: null;
+    !!this.state.address ? body.address = this.state.address : null;
+    !!this.state.city ? body.city = this.state.city : null;
+    !!this.state.state ? body.state = this.state.state : null;
+    !!this.state.zipcode ? body.zipcode = this.state.zipcode : null;
+    !!this.state.latitude ? body.latitude = this.state.latitude : null;
+    !!this.state.longitude ? body.longitude = this.state.longitude : null;
+    !!this.state.email ? body.email = this.state.email : null;
+    !!this.state.bio ? body.bio = this.state.bio : null;
+    !!this.props.userInfo ? body.fbId = this.props.userInfo.fbId : null;
 
-    if (Object.keys(body).length) {
+    if (Object.keys(body).length === 1 && 'fbId' in body) {
+      this.setState({savingData: false});
+    } else {
       fetch(helpers.requestHelper(url, body, 'POST'))
         .then((response) => response.json())
         .then((responseData) => {
-
+          console.log('responseData', responseData.status);
+          this.setState({savingData: false});
         })
         .done();
     }

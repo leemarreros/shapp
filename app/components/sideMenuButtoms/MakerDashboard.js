@@ -68,7 +68,7 @@ export default class MakerDashboard extends React.Component {
     var keys = ['name', 'username', 'fbId','email', 'picture', 'bio' ,'address']
     for (var key=0;  key < keys.length; key++) {
       if (keys[key] === 'address') {
-        var addressLength = this.props.userInfo[keys[key]].length-2;
+        var addressLength = Object.keys(this.props.userInfo.address).length - 2;
         count += Math.max(addressLength, 0);
       } else {
         if (this.props.userInfo[keys[key]] != undefined) {
@@ -76,6 +76,8 @@ export default class MakerDashboard extends React.Component {
         }
       }
     }
+    console.log('count', count);
+    console.log('this.props.userInfo', this.props.userInfo);
     var per = count/total;
     this.setState({progress: per})
     this.setState({widthContainer: Math.max(per*window.width, 105)})
