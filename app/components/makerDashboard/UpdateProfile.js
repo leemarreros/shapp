@@ -9,6 +9,10 @@ import Geocoder from 'react-native-geocoder';
 import FBSDKCore from 'react-native-fbsdkcore';
 import FBSDKLogin from 'react-native-fbsdklogin';
 
+import globalVar from '../../utils/globalVariables';
+import helpers from '../../utils/dbHelper';
+
+
 var {
   FBSDKLoginManager,
 } = FBSDKLogin;
@@ -47,17 +51,18 @@ export default class UpdateProfile extends React.Component {
       zipcodeIn: this.props.userInfo.address.zipcode || '',
       cityIn: this.props.userInfo.address.city || '',
       stateIn: this.props.userInfo.address.state || '',
-      name: null,
-      username: null,
-      email: null,
-      picture: null,
-      bio: null,
-      address: null,
-      zipcode: null,
-      city: null,
-      state: null,
+      latitude: "",
+      longitude: "",
+      name: this.props.userInfo.name,
+      username: "",
+      email: "",
+      picture: "",
+      bio: "",
+      address: "",
+      zipcode: "",
+      city: "",
+      state: "",
       modalOpen: false,
-      userPosition: null,
       animatingPos: false,
       animatingEmail: false,
       animatingBio: false,
@@ -65,15 +70,34 @@ export default class UpdateProfile extends React.Component {
   }
 
   componentWillMount() {
-    console.log('will', this.state.nameIn);
+
   }
 
   componentDidMount() {
-    console.log('Did', this.state.name);
   }
 
   handleSavePress() {
+    var url = `${globalVar.restUrl}/api/makerprofileupdate/${this.props.userInfo.fbId}`;
+    var body = {};
+    if (this.state.name != this.props.userInfo.name && this.state.name != "") body.name = this.state.name;
+    !!this.state.username ? body.username = this.state.username : null;
+    !!this.state.address ? body.address = this.state.address: null;
+    !!this.state.city ? body.city = this.state.city: null;
+    !!this.state.state ? body.state = this.state.state: null;
+    !!this.state.zipcode ? body.zipcode = this.state.zipcode: null;
+    !!this.state.latitude ? body.latitude = this.state.latitude: null;
+    !!this.state.longitude ? body.longitude = this.state.longitude: null;
+    !!this.state.email ? body.email = this.state.email: null;
+    !!this.state.bio ? body.bio = this.state.bio: null;
 
+    if (Object.keys(body).length) {
+      fetch(helpers.requestHelper(url, body, 'POST'))
+        .then((response) => response.json())
+        .then((responseData) => {
+
+        })
+        .done();
+    }
   }
 
   handlePublishPress() {
@@ -121,7 +145,6 @@ export default class UpdateProfile extends React.Component {
   }
 
   onPressCurrentPosition(count) {
-    console.log('onPressCurrentPosition');
     this.setState({animatingPos: true});
     navigator.geolocation.getCurrentPosition(
       (userPosition) => {
@@ -129,8 +152,10 @@ export default class UpdateProfile extends React.Component {
           latitude: userPosition.coords.latitude,
           longitude: userPosition.coords.longitude,
         }
-        console.log(userPosition);
-        console.log('coords', coords);
+        this.setState({
+          latitude: userPosition.coords.latitude,
+          longitude: userPosition.coords.longitude,
+        })
         Geocoder.reverseGeocodeLocation(coords, (err, data) => {
           if (err) { console.log(err); return;}
           console.log(data);
@@ -248,7 +273,7 @@ export default class UpdateProfile extends React.Component {
   }
 
   render() {
-    console.log(this.state.zipcode);
+
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }} >
         <View style={styles.title}>
