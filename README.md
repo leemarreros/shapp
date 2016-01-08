@@ -3,10 +3,19 @@
 Description
 -----------
 This app aims to provide a market place for local artists/makers and customers. The close interaction between these two sides could spark the creation of better products.
+
 [Check the prototype](https://invis.io/4E578D9FZ)
 
-Screen Pictures
----------------
+Composition
+-----------
+This app has three parts:
+
+* Shap web: allow makers to write articles and upload their work. [Check it out](https://github.com/steveleec/shappManager)
+* Shap API: Used to upload pictures to S3, save data in MongoDB. It contain the DB schemas. Shap web and shap iOS use this API [Check it out](https://github.com/steveleec/shappApiService).
+* Shap iOS: main app from which around the other services (web and API) are implemented.
+
+Screen Pictures iOS
+-------------------
 
 <p align='center'>
 
