@@ -3,6 +3,9 @@
 import React from 'react-native';
 import Dimensions from 'Dimensions';
 
+import globalVar from '../../utils/globalVariables';
+import helpers from '../../utils/dbHelper';
+
 var window = Dimensions.get('window');
 
 let {
@@ -26,15 +29,55 @@ export default class PublishArticle extends React.Component {
       title: '',
       content: '',
       tags: '',
+      savingData: false,
     };
   }
 
   handleSavePress() {
+    this.setState({savingData: true});
+    var url = `${globalVar.restUrl}/api/makerarticlecreate`;
 
+    if (this.state.title === '') {
+      this.alertIOS('Title not provided.', 'Write an enticing title!');
+      return;
+    }
+
+    if (this.state.content === '') {
+      this.alertIOS('Content not provided.', 'Write some content!');
+      return;
+    }
+
+    var body = {};
+    !!this.state.title ? body.title = this.state.title : null;
+    !!this.state.content ? body.content = this.state.content : null;
+    !!this.state.tags ? body.tags = this.state.tags : null;
+
+    if (this.props.userInfo.fbId) {
+      body.fbId = this.props.userInfo.fbId;
+    } else {
+      body._id = this.props.userInfo._id;
+    }
+
+    fetch(helpers.requestHelper(url, body, 'POST'))
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({savingData: false});
+
+      })
+      .done();
+  }
+
+  alertIOS(title, message) {
+    AlertIOS.alert(title, message,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]
+    )
   }
 
   handlePublishPress() {
-
+    this.handleSavePress.bind(this);
+    this.props.navigator.pop();
   }
 
   render() {

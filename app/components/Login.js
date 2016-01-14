@@ -157,6 +157,7 @@ class Login extends React.Component {
       this.eventEmitter.emit('burguerBtnEvent', false);
     }
   }
+
   switchToTabManager() {
     this.props.navigator.push({
       component: TabManager,
