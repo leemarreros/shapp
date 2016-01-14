@@ -404,7 +404,6 @@ export default class UpdateProfile extends React.Component {
                 value={this.state.emailIn}
                 style={styles.inputBox}
                 placeholder="Email"
-                keyboardType={'numeric'}
                 onChangeText={(email) => this.setState({email})}/>
             </View>
           </View>
