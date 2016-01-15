@@ -139,8 +139,8 @@ export default class MakerDashboard extends React.Component {
           </View>
           <View style={styles.names}>
             <Text style={styles.namesText}>{this.props.userInfo.name}</Text>
-            {this.props.userInfo.userName ?
-              <Text style={styles.namesText}>{this.props.userInfo.userName}</Text>
+            {this.props.userInfo.username ?
+              <Text style={styles.namesText}>{this.props.userInfo.username}</Text>
               :
               <Text style={styles.namesText}>Create a user name</Text>}
           </View>

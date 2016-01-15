@@ -83,10 +83,16 @@ export default class PublishArticle extends React.Component {
                   </TouchableOpacity>}
                 rightButton={
                   <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
-                    <Text>Publish</Text>
+                    <Text style={styles.rightButton}>Publish</Text>
                   </TouchableOpacity>}/>
             )
           });
+
+          this.setState({
+            title: '',
+            content: '',
+            tags: '',
+          })
 
         } else {
           this.alertIOS('An error occurred', 'Try again!');
@@ -162,7 +168,7 @@ export default class PublishArticle extends React.Component {
           <View style={styles.fieldContainer}>
             <View style={{flex: 1}}>
               <TextInput
-                value={this.state.emailIn}
+                value={this.state.tags}
                 style={styles.inputBox}
                 placeholder="(e.g. finance, tv, economy, art, wood, glod, etc)"
                 onChangeText={(tags) => this.setState({tags})}/>
@@ -191,6 +197,31 @@ export default class PublishArticle extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  titleSignUp: {
+    fontFamily: 'Avenir',
+    fontWeight: '500',
+    fontSize: 15,
+    color: 'white',
+  },
+  navigationBar: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  buttonNavBar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+    paddingBottom: 12,
+  },
+  rightButton: {
+    color: 'white',
+    fontFamily: 'Avenir',
+    fontSize: 16,
+    paddingRight: 7
+  },
   title: {
     height: 85,
     width: window.width,
