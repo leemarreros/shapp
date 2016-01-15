@@ -2,6 +2,8 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import NavigationBar from 'react-native-navbar';
+import AllArticles from './AllArticles';
 
 import globalVar from '../../utils/globalVariables';
 import helpers from '../../utils/dbHelper';
@@ -33,7 +35,7 @@ export default class PublishArticle extends React.Component {
     };
   }
 
-  handleSavePress() {
+  handlePublishPress() {
     this.setState({savingData: true});
     var url = `${globalVar.restUrl}/api/makerarticlecreate`;
 
@@ -62,7 +64,33 @@ export default class PublishArticle extends React.Component {
       .then((response) => response.json())
       .then((responseData) => {
         this.setState({savingData: false});
+        console.log(responseData);
+        if (responseData.condition === 'done') {
 
+          this.props.navigator.push({
+            component: AllArticles,
+            navigationBar: (
+              <NavigationBar
+                title={<Text style={styles.titleSignUp}>ARTICLES</Text>}
+                style={styles.navigationBar}
+                tintColor={'#285DA1'}
+                statusBar={{style: 'light-content', hidden: false}}
+                leftButton={
+                  <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+                    <Image
+                      source={require('../../img/back-icon.png')}
+                      style={[{ width: 15, height: 15}]}/>
+                  </TouchableOpacity>}
+                rightButton={
+                  <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+                    <Text>Publish</Text>
+                  </TouchableOpacity>}/>
+            )
+          });
+
+        } else {
+          this.alertIOS('An error occurred', 'Try again!');
+        }
       })
       .done();
   }
@@ -73,11 +101,6 @@ export default class PublishArticle extends React.Component {
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]
     )
-  }
-
-  handlePublishPress() {
-    this.handleSavePress.bind(this);
-    this.props.navigator.pop();
   }
 
   render() {
@@ -156,11 +179,6 @@ export default class PublishArticle extends React.Component {
 
         <View style={styles.buttons}>
           <TouchableOpacity
-            onPress={this.handleSavePress.bind(this)}
-            style={styles.iconSave}>
-            <Text style={styles.textSave}>SAVE CHANGES</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={this.handlePublishPress.bind(this)}
             style={styles.iconPublish}>
             <Text style={styles.textPublish}>PUBLISH</Text>
@@ -223,14 +241,6 @@ var styles = StyleSheet.create({
     height: 43,
     width: window.width,
   },
-  iconSave: {
-    flex: 1,
-    height: 43,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderTopWidth: 0.5,
-    borderTopColor: '#D1D1D1'
-  },
   iconPublish: {
     flex: 1,
     height: 43,
@@ -239,12 +249,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderTopWidth: 0.5,
     borderTopColor: '#D1D1D1'
-  },
-  textSave: {
-    fontFamily: 'Avenir',
-    fontSize: 17,
-    textAlign: 'center',
-    fontWeight: 'bold'
   },
   textPublish: {
     fontFamily: 'Avenir',
