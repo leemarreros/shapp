@@ -6,7 +6,7 @@ import NavigationBar from 'react-native-navbar';
 import PublishArticle from '../makerDashboard/PublishArticle';
 import UpdateProfile from '../makerDashboard/UpdateProfile';
 import UploadWork from '../makerDashboard/UploadWork';
-
+import RightButton from '../../utilComponents/RightButton'
 import globalVar from '../../utils/globalVariables';
 
 var window = Dimensions.get('window');
@@ -101,7 +101,15 @@ export default class MakerDashboard extends React.Component {
       .done();
   }
 
+  handleRightButton(title) {
+    console.log('right button pressed');
+  }
+
   handlePressIconsD(component, title) {
+    var rightButton =
+            <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+            </TouchableOpacity>;
+
     this.props.navigator.push({
       component,
       progressBar: ProgressBar,
@@ -121,8 +129,10 @@ export default class MakerDashboard extends React.Component {
               <Image
                 source={require('../../img/back-icon.png')}
                 style={[{ width: 15, height: 15}]}/>
-            </TouchableOpacity>
-          }/>
+            </TouchableOpacity>}
+          rightButton={<RightButton title={title} onPress={this.handleRightButton.bind(this, title)} />}
+
+          />
       )
     })
   }
