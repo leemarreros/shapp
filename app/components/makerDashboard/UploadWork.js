@@ -2,6 +2,11 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import NavigationBar from 'react-native-navbar';
+import AllProducts from './AllProducts';
+
+import globalVar from '../../utils/globalVariables';
+import helpers from '../../utils/dbHelper';
 
 var window = Dimensions.get('window');
 
@@ -23,11 +28,99 @@ export default class UploadWork extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: '',
+      price: '',
+      category: '',
+      description: '',
+      savingData: false
     };
   }
 
   handlePublishPress() {
+    this.setState({savingData: true});
+    var url = `${globalVar.restUrl}/api/makerproductcreate`;
 
+    if (this.state.title === '') {
+      this.alertIOS('A tiitle or name is missing', 'Write a descriptive title!')
+      return;
+    }
+    if (this.state.price === '') {
+      this.alertIOS('A price is missing', 'Write a descriptive price!')
+      return;
+    }
+
+    if (this.state.category === '') {
+      this.alertIOS('A category is missing', 'Write a category for the product!')
+      return;
+    }
+
+    if (this.state.description === '') {
+      this.alertIOS('A description is missing', 'Write a description for the product!')
+      return;
+    }
+
+    var body = {};
+
+    body.title = this.state.title;
+    body.price = this.state.price;
+    body.category = this.state.category;
+    body.description = this.state.description;
+
+    if (this.props.userInfo.fbId) {
+      body.fbId = this.props.userInfo.fbId;
+    } else {
+      body._id = this.props.userInfo._id;
+    }
+
+    fetch(helpers.requestHelper(url, body, 'POST'))
+      .then((response) => response.json())
+      .then((responseData) => {
+        this.setState({savingData: false});
+        console.log(responseData);
+        if (responseData.condition === 'done') {
+
+          this.props.navigator.push({
+            component: AllProducts,
+            navigationBar: (
+              <NavigationBar
+                title={<Text style={styles.titleSignUp}>ARTICLES</Text>}
+                style={styles.navigationBar}
+                tintColor={'#285DA1'}
+                statusBar={{style: 'light-content', hidden: false}}
+                leftButton={
+                  <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+                    <Image
+                      source={require('../../img/back-icon.png')}
+                      style={[{ width: 15, height: 15}]}/>
+                  </TouchableOpacity>}
+                rightButton={
+                  <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+                    <Text style={styles.rightButton}>Publish</Text>
+                  </TouchableOpacity>}/>
+            )
+          });
+
+          this.setState({
+            title: '',
+            price: '',
+            category: '',
+            description: '',
+          })
+
+        } else {
+          this.alertIOS('An error occurred', 'Try again!');
+        }
+      })
+      .done();
+
+  }
+
+  alertIOS(title, message) {
+    AlertIOS.alert(title, message,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]
+    )
   }
 
   render() {
@@ -66,7 +159,7 @@ export default class UploadWork extends React.Component {
 
            <View style={styles.titleFieldBar}>
             <View style={{flex: 1}}>
-              <Text style={styles.fieldName}>PRICE(USS</Text>
+              <Text style={styles.fieldName}>PRICE(USS)</Text>
             </View>
             <View style={{flex: 1}}>
               <Text style={styles.fieldName}>CATEGORY</Text>
@@ -129,6 +222,25 @@ export default class UploadWork extends React.Component {
 }
 
 var styles = StyleSheet.create({
+  titleSignUp: {
+    fontFamily: 'Avenir',
+    fontWeight: '500',
+    fontSize: 15,
+    color: 'white',
+  },
+  navigationBar: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  buttonNavBar: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 12,
+    paddingBottom: 12,
+  },
   inputBox: {
     height: 43,
     fontFamily: 'Avenir-Book',

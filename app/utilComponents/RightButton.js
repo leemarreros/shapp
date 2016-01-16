@@ -52,6 +52,7 @@ var styles = StyleSheet.create({
   rightText: {
     fontFamily: 'Avenir',
     fontSize: 15,
-    marginRight: 7
+    marginRight: 7,
+    color: 'white'
   }
 });
