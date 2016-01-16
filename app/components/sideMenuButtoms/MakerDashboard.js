@@ -8,6 +8,8 @@ import UpdateProfile from '../makerDashboard/UpdateProfile';
 import UploadWork from '../makerDashboard/UploadWork';
 import RightButton from '../../utilComponents/RightButton'
 import globalVar from '../../utils/globalVariables';
+import AllProducts from '../makerDashboard/AllProducts';
+import AllArticles from '../makerDashboard/AllArticles';
 
 var window = Dimensions.get('window');
 
@@ -103,13 +105,38 @@ export default class MakerDashboard extends React.Component {
 
   handleRightButton(title) {
     console.log('right button pressed');
+    var component;
+    var screenName;
+    if (title === 'WORK') {
+      component = AllProducts;
+      screenName = 'ALL PRODUCTS'
+    } else if (title == 'PUBLISH') {
+      component = AllArticles ;
+      screenName = 'ALL ARTICLES'
+    } else {
+      return;
+    }
+
+    this.props.navigator.push({
+      component,
+      navigationBar: (
+        <NavigationBar
+          title={<Text style={styles.titleSignUp}>{screenName}</Text>}
+          style={styles.navigationBar}
+          tintColor={'#285DA1'}
+          statusBar={{style: 'light-content', hidden: false}}
+          leftButton={
+            <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
+              <Image
+                source={require('../../img/back-icon.png')}
+                style={[{ width: 15, height: 15}]}/>
+            </TouchableOpacity>
+          }/>
+      )
+    })
   }
 
   handlePressIconsD(component, title) {
-    var rightButton =
-            <TouchableOpacity style={styles.buttonNavBar} onPress={()=> this.props.navigator.pop()}>
-            </TouchableOpacity>;
-
     this.props.navigator.push({
       component,
       progressBar: ProgressBar,

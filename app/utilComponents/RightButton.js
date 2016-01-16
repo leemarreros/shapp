@@ -34,8 +34,8 @@ export default class RightButton extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity style={styles.buttonNavBar} onPress={this.props.onPress()}>
-        <Text>{this.rightText}</Text>
+      <TouchableOpacity style={styles.buttonNavBar} onPress={()=>{this.props.onPress()}}>
+        <Text style={styles.rightText}>{this.rightText}</Text>
       </TouchableOpacity>
     );
   }
@@ -49,4 +49,9 @@ var styles = StyleSheet.create({
     marginLeft: 12,
     paddingBottom: 12,
   },
+  rightText: {
+    fontFamily: 'Avenir',
+    fontSize: 15,
+    marginRight: 7
+  }
 });
