@@ -2,6 +2,7 @@
 
 import React from 'react-native';
 import Dimensions from 'Dimensions';
+import DisplayList from '../../utilComponents/DisplayList'
 
 var window = Dimensions.get('window');
 
@@ -10,7 +11,8 @@ let {
   Text,
   StyleSheet,
   ScrollView,
-  ProgressViewIOS
+  ProgressViewIOS,
+  TouchableOpacity
 } = React;
 
 export default class AllProducts extends React.Component {
@@ -22,10 +24,12 @@ export default class AllProducts extends React.Component {
   }
 
   render() {
+    console.log('All articles');
     return (
-      <View style={{ flex: 1, backgroundColor: 'white' }} >
-        <Text>AllProducts</Text>
-      </View>
+      <DisplayList
+        items={this.props.route.work}
+        butttonText={'+ Add a product'}
+        navigator={this.props.navigator}/>
     );
   }
 }

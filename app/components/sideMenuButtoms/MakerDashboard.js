@@ -100,6 +100,9 @@ export default class MakerDashboard extends React.Component {
       .then((responseData) => {
         this.setState({work: responseData.data});
       })
+      .catch(function(error) {
+          console.log('request failed', error)
+        })
       .done();
   }
 
@@ -119,6 +122,8 @@ export default class MakerDashboard extends React.Component {
 
     this.props.navigator.push({
       component,
+      articles: this.state.articles,
+      work: this.state.work,
       navigationBar: (
         <NavigationBar
           title={<Text style={styles.titleSignUp}>{screenName}</Text>}
@@ -143,8 +148,6 @@ export default class MakerDashboard extends React.Component {
       progress: this.state.progress,
       widthContainer: this.state.widthContainer,
       profile: this.props.userInfo,
-      work: this.state.work,
-      articles: this.state.articles,
       navigationBar: (
         <NavigationBar
           title={<Text style={styles.titleSignUp}>{title}</Text>}

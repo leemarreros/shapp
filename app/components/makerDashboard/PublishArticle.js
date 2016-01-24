@@ -69,6 +69,7 @@ export default class PublishArticle extends React.Component {
 
           this.props.navigator.push({
             component: AllArticles,
+            articles: this.props.route.articles,
             navigationBar: (
               <NavigationBar
                 title={<Text style={styles.titleSignUp}>ARTICLES</Text>}
@@ -98,6 +99,9 @@ export default class PublishArticle extends React.Component {
           this.alertIOS('An error occurred', 'Try again!');
         }
       })
+      .catch(function(error) {
+          console.log('request failed', error)
+        })
       .done();
   }
 
